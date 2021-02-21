@@ -59,6 +59,25 @@ def get_intrinsic_matrix(camera_data: dict) -> np.ndarray:
   # TODO: Sort out the precision of the intrinsic matrix to be higher
   return i_matrix
 
+def get_rt_matrices(data: dict) -> np.ndarray:
+  '''
+  Get rotation-translation matrices formated in YCB style.
+
+    Parameters:
+      data (dict): JSON object data from meta-data file
+    
+    Returns:
+      rt_matrices (numpy.ndarray): 3 * 4 * n numpy array 
+  '''
+  n = len(data['objects'])
+  rt_matrices = np.empty((3, 4, n), dtype=np.float32)
+
+  for obj in data['objects']:
+    # TODO: Permutate matrix and put into the weird YCB format
+    pass
+
+  return rt_matrices
+
 if __name__ == '__main__':
   print('Creating .mat files...')
 
