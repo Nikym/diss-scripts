@@ -68,6 +68,34 @@ def get_intrinsic_matrix(camera_data: dict) -> np.ndarray:
 
   return i_matrix
 
+def _get_transpose_permutation(matrix: list) -> np.ndarray:
+  '''
+  Transposes and permutates the rt matrix stored in FAT files.
+
+    Parameters:
+      matrix (list): List representation of matrix
+
+    Returns:
+      rt_matrix (numpy.ndarray): Transposed and permuted matrix
+  '''
+  rt_matrix = np.array(matrix)
+
+  r_matrix = np.delete(rt_matrix, 3, 0)
+  r_matrix = np.delete(r_matrix, 3, 1)
+
+  t_vector = rt_matrix[3][0:3]
+  t_vector = t_vector.reshape(-1, 1)
+
+  p = np.zeros((3, 3))
+  p[1][0] = 1
+  p[2][1] = -1
+  p[0][2] = 1
+
+  r_matrix = np.matmul(r_matrix.T, p)
+  rt_matrix = np.append(r_matrix, t_vector, axis=1)
+
+  return rt_matrix
+
 def get_rt_matrices(data: dict) -> np.ndarray:
   '''
   Get rotation-translation matrices formated in YCB style.
@@ -82,8 +110,9 @@ def get_rt_matrices(data: dict) -> np.ndarray:
   rt_matrices = np.empty((3, 4, n), dtype=np.float32)
 
   for obj in data['objects']:
-    # TODO: Permutate matrix and put into the weird YCB format
-    pass
+    fat_rt_matrix = _get_transpose_permutation(
+      obj['pose_transform_permuted']
+    )
 
   return rt_matrices
 
@@ -95,6 +124,9 @@ if __name__ == '__main__':
   
   with open(ROOT_PATH + '/mixed/kitchen_0/_camera_settings.json') as f:
     camera_data = json.load(f)
+
+  
+  get_rt_matrices(data)
 
   sio.savemat('test.mat', {
     'center': get_centers(data),
