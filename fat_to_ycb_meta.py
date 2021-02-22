@@ -94,7 +94,7 @@ def _get_transpose_permutation(matrix: list) -> np.ndarray:
   r_matrix = np.matmul(r_matrix.T, p)
   rt_matrix = np.append(r_matrix, t_vector, axis=1)
 
-  return rt_matrix
+  return np.float32(rt_matrix)
 
 def get_rt_matrices(data: dict) -> np.ndarray:
   '''
@@ -106,13 +106,17 @@ def get_rt_matrices(data: dict) -> np.ndarray:
     Returns:
       rt_matrices (numpy.ndarray): 3 * 4 * n numpy array 
   '''
-  n = len(data['objects'])
-  rt_matrices = np.empty((3, 4, n), dtype=np.float32)
+  rt_matrices = None
 
   for obj in data['objects']:
     fat_rt_matrix = _get_transpose_permutation(
       obj['pose_transform_permuted']
     )
+
+    if rt_matrices is None:
+      rt_matrices = fat_rt_matrix
+    else:
+      rt_matrices = np.dstack((rt_matrices, fat_rt_matrix))
 
   return rt_matrices
 
@@ -131,7 +135,8 @@ if __name__ == '__main__':
   sio.savemat('test.mat', {
     'center': get_centers(data),
     'factor_depth': get_factor_depth(),
-    'intrinsic_matrix': get_intrinsic_matrix(camera_data)
+    'intrinsic_matrix': get_intrinsic_matrix(camera_data),
+    'poses': get_rt_matrices(data)
   })
 
   print(sio.whosmat('test.mat'))
