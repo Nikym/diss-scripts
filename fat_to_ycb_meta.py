@@ -46,17 +46,26 @@ def get_intrinsic_matrix(camera_data: dict) -> np.ndarray:
 
   i_data = camera_data['camera_settings'][0]['intrinsic_settings']
   
-  i_matrix[0][0] = '{:e}'.format(i_data['fx'])
-  i_matrix[1][1] = '{:e}'.format(i_data['fy'])
-  i_matrix[2][2] = '{:e}'.format(1)
-  i_matrix[0][1] = '{:e}'.format(i_data['s'])
-  i_matrix[0][2] = '{:e}'.format(i_data['cx'])
-  i_matrix[1][2] = '{:e}'.format(i_data['cy'])
-  i_matrix[1][0] = '{:e}'.format(0)
-  i_matrix[2][0] = '{:e}'.format(0)
-  i_matrix[2][1] = '{:e}'.format(0)
+  i_matrix[0][0] = i_data['fx']
+  i_matrix[1][1] = i_data['fy']
+  i_matrix[2][2] = 1
+  i_matrix[0][1] = i_data['s']
+  i_matrix[0][2] = i_data['cx']
+  i_matrix[1][2] = i_data['cy']
+  i_matrix[1][0] = 0
+  i_matrix[2][0] = 0
+  i_matrix[2][1] = 0
 
-  # TODO: Sort out the precision of the intrinsic matrix to be higher
+  # i_matrix[0][0] = '{:e}'.format(i_data['fx'])
+  # i_matrix[1][1] = '{:e}'.format(i_data['fy'])
+  # i_matrix[2][2] = '{:e}'.format(1)
+  # i_matrix[0][1] = '{:e}'.format(i_data['s'])
+  # i_matrix[0][2] = '{:e}'.format(i_data['cx'])
+  # i_matrix[1][2] = '{:e}'.format(i_data['cy'])
+  # i_matrix[1][0] = '{:e}'.format(0)
+  # i_matrix[2][0] = '{:e}'.format(0)
+  # i_matrix[2][1] = '{:e}'.format(0)
+
   return i_matrix
 
 def get_rt_matrices(data: dict) -> np.ndarray:
