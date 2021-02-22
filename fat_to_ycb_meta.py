@@ -42,7 +42,7 @@ def get_intrinsic_matrix(camera_data: dict) -> np.ndarray:
     Returns:
       i_matrix (numpy.ndarray): Intrinsic matrix in numpy format
   '''
-  i_matrix = np.empty((3, 3), dtype=np.float64)
+  i_matrix = np.zeros((3, 3), dtype=np.float64)
 
   i_data = camera_data['camera_settings'][0]['intrinsic_settings']
   
@@ -52,19 +52,6 @@ def get_intrinsic_matrix(camera_data: dict) -> np.ndarray:
   i_matrix[0][1] = i_data['s']
   i_matrix[0][2] = i_data['cx']
   i_matrix[1][2] = i_data['cy']
-  i_matrix[1][0] = 0
-  i_matrix[2][0] = 0
-  i_matrix[2][1] = 0
-
-  # i_matrix[0][0] = '{:e}'.format(i_data['fx'])
-  # i_matrix[1][1] = '{:e}'.format(i_data['fy'])
-  # i_matrix[2][2] = '{:e}'.format(1)
-  # i_matrix[0][1] = '{:e}'.format(i_data['s'])
-  # i_matrix[0][2] = '{:e}'.format(i_data['cx'])
-  # i_matrix[1][2] = '{:e}'.format(i_data['cy'])
-  # i_matrix[1][0] = '{:e}'.format(0)
-  # i_matrix[2][0] = '{:e}'.format(0)
-  # i_matrix[2][1] = '{:e}'.format(0)
 
   return i_matrix
 
