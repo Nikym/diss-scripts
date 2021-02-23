@@ -124,6 +124,25 @@ def get_rt_matrices(data: dict) -> np.ndarray:
 
   return rt_matrices
 
+def get_cls_indexes(data: dict) -> np.ndarray:
+  '''
+  Creates array of segmentation IDs features in particular image.
+
+    Parameters:
+      data (dict): JSON representation of FAT image data
+
+    Returns:
+      cls_indexes (numpy.ndarray): Array of segmentation IDs
+  '''
+  n = len(data['objects'])
+  cls_indexes = np.zeros(n, dtype=np.float32)
+
+  for i, obj in enumerate(data['objects']):
+    obj_name = obj['class'][:-4]
+    cls_indexes[i] = object_ids[obj_name]
+
+  return cls_indexes
+
 if __name__ == '__main__':
   print('Creating .mat files...')
 
@@ -137,13 +156,13 @@ if __name__ == '__main__':
     obj_data = json.load(f)
 
   generate_label_ids(obj_data)
-  print(object_ids)
 
   sio.savemat('test.mat', {
     'center': get_centers(data),
     'factor_depth': get_factor_depth(),
     'intrinsic_matrix': get_intrinsic_matrix(camera_data),
-    'poses': get_rt_matrices(data)
+    'poses': get_rt_matrices(data),
+    'cls_indexes': get_cls_indexes(data)
   })
 
   print(sio.whosmat('test.mat'))
