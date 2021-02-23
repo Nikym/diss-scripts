@@ -2,8 +2,25 @@ import scipy.io as sio
 import numpy as np
 import json
 import os
+from collections import defaultdict
 
 ROOT_PATH = '/Volumes/nik_ext/diss/fat_dataset/fat'
+
+object_ids = defaultdict(lambda: None)
+
+def generate_label_ids(data: dict):
+  '''
+  Generates the segmentation / label IDs for each object and stores the
+  information in a global dict.
+
+    Parameters:
+      data (dict): JSON _object_settings data
+  '''
+  for obj in data['exported_objects']:
+    obj_name = obj['class'][:-4]
+
+    if object_ids[obj_name] is None:
+      object_ids[obj_name] = obj['segmentation_class_id']
 
 def get_centers(data: dict) -> np.ndarray:
   '''
@@ -116,8 +133,11 @@ if __name__ == '__main__':
   with open(ROOT_PATH + '/mixed/kitchen_0/_camera_settings.json') as f:
     camera_data = json.load(f)
 
-  
-  get_rt_matrices(data)
+  with open(ROOT_PATH + '/mixed/kitchen_0/_object_settings.json') as f:
+    obj_data = json.load(f)
+
+  generate_label_ids(obj_data)
+  print(object_ids)
 
   sio.savemat('test.mat', {
     'center': get_centers(data),
