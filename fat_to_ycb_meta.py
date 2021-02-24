@@ -67,8 +67,10 @@ def get_intrinsic_matrix(camera_data: dict) -> np.ndarray:
   i_matrix[1][1] = i_data['fy']
   i_matrix[2][2] = 1
   i_matrix[0][1] = i_data['s']
-  i_matrix[0][2] = i_data['cx']
-  i_matrix[1][2] = i_data['cy']
+  # i_matrix[0][2] = i_data['cx']
+  # i_matrix[1][2] = i_data['cy']
+  i_matrix[0][2] = 320
+  i_matrix[1][2] = 240
 
   return i_matrix
 
