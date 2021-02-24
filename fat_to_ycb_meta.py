@@ -187,17 +187,25 @@ def process_scenes(path: str, start_index: int, output_dir: str = 'output') -> i
   # Multiplied by 2 as each scene has two angles
   return num_of_files * 2
 
-if __name__ == '__main__':
-  print('Creating .mat files...')
+def get_directories(root: str = '') -> list:
+  '''
+  Retrives relative paths to the FAT files.
+
+    Parameters:
+      root (str): The root directory of the FAT dataset
+
+    Returns:
+      dir_list (list): List of relative paths
+  '''
 
   # Get names of directories at root
   dir_list_mixed = [
-    'mixed/' + item for item in os.listdir(ROOT_PATH + '/mixed') if os.path.isdir(os.path.join(ROOT_PATH, 'mixed', item))]
+    root + 'mixed/' + item for item in os.listdir(ROOT_PATH + '/mixed') if os.path.isdir(os.path.join(ROOT_PATH, 'mixed', item))]
   # Sorted to ensure processed data is always in same order
   dir_list_mixed.sort()
 
   dir_list_single_objs = [
-    'single/' + item for item in os.listdir(ROOT_PATH + '/single') if os.path.isdir(os.path.join(ROOT_PATH, 'single', item))]
+    root + 'single/' + item for item in os.listdir(ROOT_PATH + '/single') if os.path.isdir(os.path.join(ROOT_PATH, 'single', item))]
 
   dir_list_single = []
   for directory in dir_list_single_objs:
@@ -210,6 +218,13 @@ if __name__ == '__main__':
   dir_list = []
   dir_list.extend(dir_list_mixed)
   dir_list.extend(dir_list_single)
+
+  return dir_list
+
+if __name__ == '__main__':
+  print('Creating .mat files...')
+
+  dir_list = get_directories()
 
   log_file = open('meta_processing_log.txt', 'w+')
 
