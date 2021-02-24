@@ -231,11 +231,21 @@ if __name__ == '__main__':
   log_file = open('meta_processing_log.txt', 'w+')
 
   total_files = 0
-  for directory in dir_list:
+  total_dir = len(dir_list)
+
+  log_file.write('Total directories: ' + str(total_dir) + '\n')
+
+  for i, directory in enumerate(dir_list):
     path = directory
-    print('Processing ' + directory + ' ... (start @ ' + str(total_files) + ')')
+    print('Processing ' + directory + ' ... (start @ ' + 
+      str(total_files) + ', dir ' + str(i+1) + '/' + str(total_dir) + ')')
     log_file.write('[' + str(total_files).zfill(5) + '] ' + directory + '\n')
     total_files += process_scenes(
       ROOT_PATH + '/' + path,
       total_files,
       'output')
+  
+  log_file.close()
+
+  with open('object_ids.json', 'w+') as f:
+    f.write(json.dumps(object_ids, indent=2))
