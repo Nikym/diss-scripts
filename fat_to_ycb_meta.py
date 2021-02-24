@@ -143,26 +143,79 @@ def get_cls_indexes(data: dict) -> np.ndarray:
 
   return cls_indexes
 
-if __name__ == '__main__':
-  print('Creating .mat files...')
+def process_scenes(path: str, start_index: int, output_dir: str = 'output') -> int:
+  '''
+  Processes the meta files in a specified directory and outputs .mat files.
 
-  with open(ROOT_PATH + '/mixed/kitchen_0/000000.right.json') as f:
-    data = json.load(f)
-  
-  with open(ROOT_PATH + '/mixed/kitchen_0/_camera_settings.json') as f:
+    Parameters:
+      path (str): The path of the directory to be processed
+      start_index (int): The index at which the output file names should start at
+      output_dir (str): The path to the output directory
+
+    Returns:
+      num_files_processed (int): The number of files that were processed
+  '''
+  with open(os.path.join(path, '_camera_settings.json')) as f:
     camera_data = json.load(f)
 
-  with open(ROOT_PATH + '/mixed/kitchen_0/_object_settings.json') as f:
+  with open(os.path.join(path, '_object_settings.json')) as f:
     obj_data = json.load(f)
 
   generate_label_ids(obj_data)
+  
+  # Each scene has 2 angles with 4 data files each, plus 2 camera files not related (hence -2)
+  num_of_files = int((len(os.listdir(path)) - 2) / 8)
 
-  sio.savemat('test.mat', {
-    'center': get_centers(data),
-    'factor_depth': get_factor_depth(),
-    'intrinsic_matrix': get_intrinsic_matrix(camera_data),
-    'poses': get_rt_matrices(data),
-    'cls_indexes': get_cls_indexes(data)
-  })
+  for x in range(0, num_of_files):
+    for angle in ['left', 'right']:
+      index = x
+      if angle is 'right':
+        index += num_of_files
 
-  print(sio.whosmat('test.mat'))
+      file_name = str(x).zfill(6) + '.' + angle + '.json'
+      with open(os.path.join(path, file_name)) as f:
+        data = json.load(f)
+
+      sio.savemat(output_dir + '/' + str(index + start_index).zfill(6) + '-meta.mat', {
+        'center': get_centers(data),
+        'factor_depth': get_factor_depth(),
+        'intrinsic_matrix': get_intrinsic_matrix(camera_data),
+        'poses': get_rt_matrices(data),
+        'cls_indexes': get_cls_indexes(data)
+      })
+  
+  # Multiplied by 2 as each scene has two angles
+  return num_of_files * 2
+
+if __name__ == '__main__':
+  print('Creating .mat files...')
+
+  # Get names of directories at root
+  dir_list_mixed = [
+    'mixed/' + item for item in os.listdir(ROOT_PATH + '/mixed') if os.path.isdir(os.path.join(ROOT_PATH, 'mixed', item))]
+  # Sorted to ensure processed data is always in same order
+  dir_list_mixed.sort()
+
+  dir_list_single_objs = [
+    'single/' + item for item in os.listdir(ROOT_PATH + '/single') if os.path.isdir(os.path.join(ROOT_PATH, 'single', item))]
+
+  dir_list_single = []
+  for directory in dir_list_single_objs:
+    dir_list_single.extend(
+      [directory + '/' + item for item in os.listdir(ROOT_PATH + '/' + directory) if os.path.isdir(os.path.join(ROOT_PATH, directory, item))]
+    )
+
+  dir_list_single.sort()
+
+  dir_list = []
+  dir_list.extend(dir_list_mixed)
+  dir_list.extend(dir_list_single)
+
+  log_file = open('meta_processing_log.txt', 'w+')
+
+  total_files = 0
+  for directory in dir_list:
+    path = ROOT_PATH + '/' + directory
+    print('Processing ' + directory + ' ... (start @ ' + str(total_files) + ')')
+    log_file.write('[' + str(total_files).zfill(5) + '] ' + directory + '\n')
+    total_files += process_scenes(path, total_files, 'output')
