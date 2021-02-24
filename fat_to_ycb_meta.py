@@ -200,12 +200,12 @@ def get_directories(root: str = '') -> list:
 
   # Get names of directories at root
   dir_list_mixed = [
-    root + 'mixed/' + item for item in os.listdir(ROOT_PATH + '/mixed') if os.path.isdir(os.path.join(ROOT_PATH, 'mixed', item))]
+    'mixed/' + item for item in os.listdir(ROOT_PATH + '/mixed') if os.path.isdir(os.path.join(ROOT_PATH, 'mixed', item))]
   # Sorted to ensure processed data is always in same order
   dir_list_mixed.sort()
 
   dir_list_single_objs = [
-    root + 'single/' + item for item in os.listdir(ROOT_PATH + '/single') if os.path.isdir(os.path.join(ROOT_PATH, 'single', item))]
+    'single/' + item for item in os.listdir(ROOT_PATH + '/single') if os.path.isdir(os.path.join(ROOT_PATH, 'single', item))]
 
   dir_list_single = []
   for directory in dir_list_single_objs:
@@ -230,7 +230,10 @@ if __name__ == '__main__':
 
   total_files = 0
   for directory in dir_list:
-    path = ROOT_PATH + '/' + directory
+    path = directory
     print('Processing ' + directory + ' ... (start @ ' + str(total_files) + ')')
     log_file.write('[' + str(total_files).zfill(5) + '] ' + directory + '\n')
-    total_files += process_scenes(path, total_files, 'output')
+    total_files += process_scenes(
+      ROOT_PATH + '/' + path,
+      total_files,
+      'output')
