@@ -224,7 +224,7 @@ def get_directories(root: str = '') -> list:
 if __name__ == '__main__':
   print('Creating .mat files...')
 
-  dir_list = get_directories()
+  dir_list = get_directories(ROOT_PATH + '/')
 
   log_file = open('meta_processing_log.txt', 'w+')
 
