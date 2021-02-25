@@ -127,6 +127,9 @@ def get_rt_matrices(data: dict) -> np.ndarray:
     else:
       rt_matrices = np.dstack((rt_matrices, fat_rt_matrix))
 
+  if rt_matrices is None:
+    return np.array(list, dtype=np.float32)
+
   return rt_matrices
 
 def get_cls_indexes(data: dict) -> np.ndarray:
@@ -140,6 +143,10 @@ def get_cls_indexes(data: dict) -> np.ndarray:
       cls_indexes (numpy.ndarray): Array of segmentation IDs
   '''
   n = len(data['objects'])
+
+  if n is 0:
+    return np.array(list, dtype=np.float32)
+
   cls_indexes = np.zeros(n, dtype=np.float32)
 
   for i, obj in enumerate(data['objects']):
