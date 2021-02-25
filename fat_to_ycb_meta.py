@@ -128,7 +128,7 @@ def get_rt_matrices(data: dict) -> np.ndarray:
       rt_matrices = np.dstack((rt_matrices, fat_rt_matrix))
 
   if rt_matrices is None:
-    return np.array(list, dtype=np.float32)
+    return np.array([], dtype=np.float32)
 
   return rt_matrices
 
@@ -145,7 +145,7 @@ def get_cls_indexes(data: dict) -> np.ndarray:
   n = len(data['objects'])
 
   if n is 0:
-    return np.array(list, dtype=np.float32)
+    return np.array([], dtype=np.float32)
 
   cls_indexes = np.zeros(n, dtype=np.float32)
 
