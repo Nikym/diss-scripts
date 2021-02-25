@@ -1,2 +1,4 @@
 *.mat
 output
+*.txt
+*.json
