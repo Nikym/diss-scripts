@@ -181,13 +181,27 @@ def process_scenes(path: str, start_index: int, output_dir: str = 'output') -> i
       with open(os.path.join(path, file_name)) as f:
         data = json.load(f)
 
-      sio.savemat(output_dir + '/' + str(index + start_index).zfill(6) + '-meta.mat', {
-        'center': get_centers(data),
-        'factor_depth': get_factor_depth(),
-        'intrinsic_matrix': get_intrinsic_matrix(camera_data),
-        'poses': get_rt_matrices(data),
-        'cls_indexes': get_cls_indexes(data)
-      })
+      centers = get_centers(data)
+      factor_depth = get_factor_depth()
+      intrinsic_matrix = get_intrinsic_matrix(camera_data)
+      poses = get_rt_matrices(data)
+      cls_indexes = get_cls_indexes(data)
+
+      try:
+        sio.savemat(output_dir + '/' + str(index + start_index).zfill(6) + '-meta.mat', {
+          'center': centers,
+          'factor_depth': factor_depth,
+          'intrinsic_matrix': intrinsic_matrix,
+          'poses': poses,
+          'cls_indexes': cls_indexes
+        })
+      except Exception:
+        print('Error! Print retrived vars:')
+        print(center, '\n')
+        print(factor_depth, '\n')
+        print(intrinsic_matrix, '\n')
+        print(poses, '\n')
+        print(cls_indexes, '\n')
   
   # Multiplied by 2 as each scene has two angles
   return num_of_files * 2
