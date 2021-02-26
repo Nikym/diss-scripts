@@ -8,7 +8,7 @@ def crop_image(img):
   return cropped
 
 if __name__ == '__main__':
-  f = ROOT_PATH + '/kitchen_0/000000.right.jpg'
+  f = ROOT_PATH + '/mixed/kitchen_0/000000.right.jpg'
   img = cv2.imread(f)
 
   cropped = crop_image(img)
