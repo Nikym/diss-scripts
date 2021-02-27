@@ -1,6 +1,6 @@
 import cv2
 import os
-from .fat_to_ycb_meta import get_directories
+from fat_to_ycb_meta import get_directories
 
 ROOT_PATH = '/media/external/diss/fat_dataset/fat'
 
