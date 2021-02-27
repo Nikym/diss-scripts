@@ -77,6 +77,9 @@ def process_scenes(path: str, start_index: int, output_dir: str = 'output') -> i
       except Exception:
         print('Error! File affected ' + f)
         quit()
+  
+  # Multiplied by 2 as each scene has two angles
+  return num_of_files * 2
 
 if __name__ == '__main__':
   print('Cropping colour and depth images...')
