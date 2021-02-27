@@ -4,7 +4,7 @@ import json
 import os
 from collections import defaultdict
 
-ROOT_PATH = '/Volumes/nik_ext/diss/fat_dataset/fat'
+ROOT_PATH = '/media/external/diss/fat_dataset/fat'
 
 object_ids = defaultdict(lambda: None)
 conversion_ids = defaultdict(list)
