@@ -46,7 +46,7 @@ def process_scenes(path: str, start_index: int, output_dir: str = 'output') -> i
         print('Error! File affected ' + f)
         quit()
 
-      depth_file_name = str(x).zfill(6) + '.' + angle + 'depth.png'
+      depth_file_name = str(x).zfill(6) + '.' + angle + '.depth.png'
       f = os.path.join(path, depth_file_name)
 
       try:
@@ -62,7 +62,7 @@ def process_scenes(path: str, start_index: int, output_dir: str = 'output') -> i
         print('Error! File affected ' + f)
         quit()
 
-      seg_file_name = str(x).zfill(6) + '.' + angle + 'seg.png'
+      seg_file_name = str(x).zfill(6) + '.' + angle + '.seg.png'
       f = os.path.join(path, seg_file_name)
 
       try:
