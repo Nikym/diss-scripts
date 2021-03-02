@@ -21,16 +21,17 @@ def process_scenes(path: str, start_index: int, output_dir: str = 'output') -> i
     Returns:
       num_files_processed (int): The number of files that were processed
   '''
-  # Each scene has 2 angles with 4 data files each, plus 2 camera files not related (hence -2)
+  # Each scene has 2 angles with 4 data files each, plus 2 camera / obj files not related
   num_of_files = int((len(os.listdir(path)) - 2) / 8)
 
-  err_file = open(ROOT_PATH + '/img_processing_err.txt', 'w+')
+  err_file = open(ROOT_PATH + '/img_processing_err.txt', 'a')
 
   index = 0
   for x in range(0, num_of_files):
     for angle in ['left', 'right']:
       file_path = os.path.join(path, str(x).zfill(6) + '.' + angle)
 
+      # If any of the img files are corrupt, then skip whole instance
       try:
         file_name = file_path + '.jpg'
         cropped_img = crop_image(cv2.imread(file_name))
@@ -52,7 +53,7 @@ def process_scenes(path: str, start_index: int, output_dir: str = 'output') -> i
         err_file.write(file_path + '/n')
   
   err_file.close()
-  # Multiplied by 2 as each scene has two angles
+
   return index + 1
 
 if __name__ == '__main__':
@@ -60,7 +61,7 @@ if __name__ == '__main__':
 
   dir_list = get_directories(ROOT_PATH + '/')
 
-  log_file = open(ROOT_PATH + '/img_processing_log.txt', 'w+')
+  log_file = open(ROOT_PATH + '/img_processing_log.txt', 'w')
 
   total_files = 0
   total_dir = len(dir_list)
