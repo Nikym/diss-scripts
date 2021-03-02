@@ -4,8 +4,6 @@ from fat_to_ycb_meta import get_directories
 
 ROOT_PATH = '/media/external/diss/fat_dataset/fat'
 
-error_list = []
-
 def crop_image(img):
   cropped = img[30:30+480, 160:160+640]
 
@@ -26,12 +24,13 @@ def process_scenes(path: str, start_index: int, output_dir: str = 'output') -> i
   # Each scene has 2 angles with 4 data files each, plus 2 camera files not related (hence -2)
   num_of_files = int((len(os.listdir(path)) - 2) / 8)
 
-  err_count = 0
+  err_file = open(ROOT_PATH + '/img_processing_err.txt', 'w+')
+
   index = 0
   for x in range(0, num_of_files):
     for angle in ['left', 'right']:
       file_path = os.path.join(path, str(x).zfill(6) + '.' + angle)
-      
+
       try:
         file_name = file_path + '.jpg'
         cropped_img = crop_image(cv2.imread(file_name))
@@ -42,9 +41,7 @@ def process_scenes(path: str, start_index: int, output_dir: str = 'output') -> i
         seg_file_name = file_path + '.seg.png'
         cropped_seg = crop_image(cv2.imread(seg_file_name))
 
-        # Output index adjusted to account for any errors
-        adjusted_index = index - err_count
-        new_file_id = output_dir + '/' + str(adjusted_index + start_index).zfill(6)
+        new_file_id = output_dir + '/' + str(index + start_index).zfill(6)
 
         cv2.imwrite(new_file_id + '-color.png', cropped_img)
         cv2.imwrite(new_file_id + '-depth.png', cropped_depth)
@@ -52,11 +49,11 @@ def process_scenes(path: str, start_index: int, output_dir: str = 'output') -> i
         index += 1
       except Exception:
         print('Error! File affected ' + file_path)
-        error_list.append(file_path)
-        err_count += 1
+        err_file.write(file_path + '/n')
   
+  err_file.close()
   # Multiplied by 2 as each scene has two angles
-  return num_of_files * 2 - err_count
+  return index + 1
 
 if __name__ == '__main__':
   print('Cropping colour and depth images...')
