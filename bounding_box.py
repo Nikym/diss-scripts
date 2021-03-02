@@ -2,21 +2,36 @@ import json
 import os
 
 ROOT_PATH = '/home/nikita/diss/fat_dataset/fat'
+FAILED_FILES = []
+
+def get_failed_files():
+  with open(ROOT_PATH + '/img_processing_err.txt', 'r') as err_file:
+    while True:
+      f = err_file.readline()
+      if not f:
+        break
+
+      FAILED_FILES.append(f)
 
 def processScenes(path: str, start_index: int, output_dir: str) -> int:
-  """
-  Formats data and returns number of files formatted.
-  """
+  '''
+  Processes the json files in a specified directory and outputs bounding box text files.
+
+    Parameters:
+      path (str): The path of the directory to be processed
+      start_index (int): The index at which the output file names should start at
+      output_dir (str): The path to the output directory
+
+    Returns:
+      num_files_processed (int): The number of files that were processed
+  '''
   # Each scene has 2 angles with 4 data files each, plus 2 camera files not related (hence -2)
   num_of_files = int((len(os.listdir(path)) - 2) / 8)
 
+  index = 0
   for x in range(0, num_of_files):
     # There are right and left angles, so can split them into seperate files
     for angle in ['left', 'right']:
-      index = x
-      if angle is 'right':
-        index += num_of_files
-      
       file_name = str(x).zfill(6) + '.' + angle + '.json'
       meta_file = open(os.path.join(path, file_name))
 
