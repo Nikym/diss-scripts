@@ -6,6 +6,9 @@ ROOT_PATH = '/home/nikita/diss/fat_dataset/fat'
 FAILED_FILES = []
 
 def get_failed_files():
+  '''
+  Reads list of corrupted files and loads them into a list.
+  '''
   with open(ROOT_PATH + '/img_processing_err.txt', 'r') as err_file:
     while True:
       f = err_file.readline()
@@ -115,5 +118,4 @@ if __name__ == '__main__':
     )
 
   log_file.close()
-
   print('Complete')

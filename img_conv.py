@@ -34,7 +34,7 @@ def process_scenes(path: str, start_index: int, output_dir: str = 'output') -> i
       # If any of the img files are corrupt, then skip whole instance
       try:
         file_name = file_path + '.jpg'
-        
+
         # Check JPEG file is complete
         with open(file_name, 'rb') as f:
           end_chars = f.read()[-2:]
@@ -90,3 +90,4 @@ if __name__ == '__main__':
     )
   
   log_file.close()
+  print('Complete')
