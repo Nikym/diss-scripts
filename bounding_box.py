@@ -34,11 +34,16 @@ def process_scenes(path: str, start_index: int, output_dir: str) -> int:
     # There are right and left angles, so can split them into seperate files
     for angle in ['left', 'right']:
       file_name = str(x).zfill(6) + '.' + angle + '.json'
+      
+      # If file does not have processed image then skip
+      if os.path.join(path, file_name[0:-5]) in FAILED_FILES:
+        continue
+
       meta_file = open(os.path.join(path, file_name))
 
       data = json.load(meta_file)
       new_file = open(
-        os.path.join(output_dir, str(index + start_index).zfill(6) + '-box.txt'), 'w+')
+        os.path.join(output_dir, str(index + start_index).zfill(6) + '-box.txt'), 'w')
 
       # Iterate for each object in scene and get names and bounding box coords
       for obj in data['objects']:
@@ -46,19 +51,43 @@ def process_scenes(path: str, start_index: int, output_dir: str) -> int:
         name = name[:-4]
 
         box = obj['bounding_box']
-        tl_coords = str(
-          round(box['top_left'][0], 2)) + ' ' + str(round(box['top_left'][1], 2))
-        br_coords = str(
-          round(box['bottom_right'][0], 2)) + ' ' + str(round(box['bottom_right'][1], 2))
+        tl_x_coord = round(box['top_left'][0], 2)
+        if tl_x_coord > 640:
+          continue # If start is beyond boundary then item is not in frame
+        elif tl_x_coord < 0:
+          tl_x_coord = 0.0
+
+        tl_y_coord = round(box['top_left'][1], 2)
+        if tl_y_coord > 480:
+          continue
+        elif tl_y_coord < 0:
+          tl_y_coord = 0.0
+
+        tl_coords = str(tl_x_coord) + ' ' + str(tl_y_coord)  
+
+        br_x_coord = round(box['bottom_right'][0], 2)
+        if br_x_coord < 0:
+          continue # If end is before boundary then item is not in frame
+        elif br_x_coord > 640:
+          br_x_coord = 640.0
+        
+        br_y_coord = round(box['bottom_right'][1], 2)
+        if br_y_coord < 0:
+          continue
+        elif br_y_coord > 480:
+          br_y_coord = 480.0
+
+        br_coords = str(br_x_coord) + ' ' + str(br_y_coord)
 
         obj_data = name + ' ' + tl_coords + ' ' + br_coords
         new_file.write(obj_data + '\n')
       
       meta_file.close()
       new_file.close()
+      index += 1
 
   # Multiplied by 2 as each scene has two angles
-  return num_of_files * 2
+  return index
 
 if __name__ == '__main__':
   print('Creating bounding box txt files...')
