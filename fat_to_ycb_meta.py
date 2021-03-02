@@ -3,8 +3,10 @@ import numpy as np
 import json
 import os
 from collections import defaultdict
+from bounding_box import get_failed_files
 
 ROOT_PATH = '/media/external/diss/fat_dataset/fat'
+FAILED_FILES = []
 
 object_ids = defaultdict(lambda: None)
 conversion_ids = defaultdict(list)
@@ -178,13 +180,14 @@ def process_scenes(path: str, start_index: int, output_dir: str = 'output') -> i
   # Each scene has 2 angles with 4 data files each, plus 2 camera files not related (hence -2)
   num_of_files = int((len(os.listdir(path)) - 2) / 8)
 
+  index = 0
   for x in range(0, num_of_files):
     for angle in ['left', 'right']:
-      index = x
-      if angle is 'right':
-        index += num_of_files
-
       file_name = str(x).zfill(6) + '.' + angle + '.json'
+      # If file does not have processed image then skip
+      if os.path.join(path, file_name[0:-5]) in FAILED_FILES:
+        continue
+
       with open(os.path.join(path, file_name)) as f:
         data = json.load(f)
 
@@ -204,14 +207,15 @@ def process_scenes(path: str, start_index: int, output_dir: str = 'output') -> i
         })
       except Exception:
         print('Error! Print retrived vars:')
-        print(center, '\n')
+        print(centers, '\n')
         print(factor_depth, '\n')
         print(intrinsic_matrix, '\n')
         print(poses, '\n')
         print(cls_indexes, '\n')
+      
+      index += 1
   
-  # Multiplied by 2 as each scene has two angles
-  return num_of_files * 2
+  return index
 
 def get_directories(root: str = '') -> list:
   '''
@@ -249,6 +253,7 @@ def get_directories(root: str = '') -> list:
 
 if __name__ == '__main__':
   print('Creating .mat files...')
+  get_failed_files()
 
   dir_list = get_directories(ROOT_PATH + '/')
 
@@ -278,3 +283,5 @@ if __name__ == '__main__':
 
   with open(ROOT_PATH + '/conversion_ids.json', 'w+') as f:
     f.write(json.dumps(conversion_ids, indent=2))
+
+  print('Complete')
