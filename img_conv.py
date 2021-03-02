@@ -34,6 +34,15 @@ def process_scenes(path: str, start_index: int, output_dir: str = 'output') -> i
       # If any of the img files are corrupt, then skip whole instance
       try:
         file_name = file_path + '.jpg'
+        
+        # Check JPEG file is complete
+        with open(file_name, 'rb') as f:
+          end_chars = f.read()[-2:]
+        if end_chars != b'\xff\xd9':
+          print('Error! File affected ' + file_path)
+          err_file.write(file_path + '\n')
+          continue
+
         cropped_img = crop_image(cv2.imread(file_name))
 
         depth_file_name = file_path + '.depth.png'
@@ -50,7 +59,7 @@ def process_scenes(path: str, start_index: int, output_dir: str = 'output') -> i
         index += 1
       except Exception:
         print('Error! File affected ' + file_path)
-        err_file.write(file_path + '/n')
+        err_file.write(file_path + '\n')
   
   err_file.close()
 
