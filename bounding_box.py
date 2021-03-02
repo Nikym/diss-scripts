@@ -1,5 +1,6 @@
 import json
 import os
+from fat_to_ycb_meta import get_directories
 
 ROOT_PATH = '/home/nikita/diss/fat_dataset/fat'
 FAILED_FILES = []
@@ -13,7 +14,7 @@ def get_failed_files():
 
       FAILED_FILES.append(f)
 
-def processScenes(path: str, start_index: int, output_dir: str) -> int:
+def process_scenes(path: str, start_index: int, output_dir: str) -> int:
   '''
   Processes the json files in a specified directory and outputs bounding box text files.
 
@@ -59,36 +60,31 @@ def processScenes(path: str, start_index: int, output_dir: str) -> int:
   # Multiplied by 2 as each scene has two angles
   return num_of_files * 2
 
-# Get names of directories at root
-dir_list_mixed = [
-  'mixed/' + item for item in os.listdir(ROOT_PATH + '/mixed') if os.path.isdir(os.path.join(ROOT_PATH, 'mixed', item))]
-# Sorted to ensure processed data is always in same order
-dir_list_mixed.sort()
+if __name__ == '__main__':
+  print('Creating bounding box txt files...')
+  get_failed_files()
 
-dir_list_single_objs = [
-  'single/' + item for item in os.listdir(ROOT_PATH + '/single') if os.path.isdir(os.path.join(ROOT_PATH, 'single', item))]
+  dir_list = get_directories(ROOT_PATH + '/')
 
-dir_list_single = []
-for directory in dir_list_single_objs:
-  dir_list_single.extend(
-    [directory + '/' + item for item in os.listdir(ROOT_PATH + '/' + directory) if os.path.isdir(os.path.join(ROOT_PATH, directory, item))]
-  )
+  log_file = open(ROOT_PATH + '/box_processing_log.txt', 'w')
 
-dir_list_single.sort()
+  total_files = 0
+  total_dir = len(dir_list)
 
-dir_list = []
-dir_list.extend(dir_list_mixed)
-dir_list.extend(dir_list_single)
+  log_file.write('Total directories: ' + str(total_dir) + '\n')
 
-log_file = open('data_processing_log.txt', 'w+')
+  for i, directory in enumerate(dir_list):
+    print('Processing ' + directory + ' ... (start @ ' + 
+      str(total_files) + ', dir ' + str(i+1) + '/' + str(total_dir) + ')')
+    log_file.write('[' + str(total_files).zfill(5) + '] ' + directory + '\n')
 
-total_files = 0
-for directory in dir_list:
-  path = ROOT_PATH + '/' + directory
-  print('Processing ' + directory + ' ... (start @ ' + str(total_files) + ')')
-  log_file.write('[' + str(total_files).zfill(5) + '] ' + directory + '\n')
-  total_files += processScenes(path, total_files, 'output')
+    path = ROOT_PATH + '/' + directory
+    total_files += process_scenes(
+      path,
+      total_files,
+      ROOT_PATH + '/output_box'
+    )
 
-log_file.close()
+  log_file.close()
 
-print('Complete')
+  print('Complete')
