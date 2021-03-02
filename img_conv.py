@@ -54,7 +54,7 @@ def process_scenes(path: str, start_index: int, output_dir: str = 'output') -> i
   
   err_file.close()
 
-  return index + 1
+  return index
 
 if __name__ == '__main__':
   print('Cropping colour and depth images...')
