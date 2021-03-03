@@ -1,21 +1,8 @@
 import json
 import os
-from fat_to_ycb_meta import get_directories
+from common_funcs import get_directories, get_failed_files, ROOT_PATH
 
-ROOT_PATH = '/home/nikita/diss/fat_dataset/fat'
-FAILED_FILES = []
-
-def get_failed_files():
-  '''
-  Reads list of corrupted files and loads them into a list.
-  '''
-  with open(ROOT_PATH + 'output/img_processing_err.txt', 'r') as err_file:
-    while True:
-      f = err_file.readline()
-      if not f:
-        break
-
-      FAILED_FILES.append(f)
+FAILED_FILES = get_failed_files()
 
 def process_scenes(path: str, start_index: int, output_dir: str) -> int:
   '''
@@ -94,7 +81,6 @@ def process_scenes(path: str, start_index: int, output_dir: str) -> int:
 
 if __name__ == '__main__':
   print('Creating bounding box txt files...')
-  get_failed_files()
 
   dir_list = get_directories(ROOT_PATH + '/')
 

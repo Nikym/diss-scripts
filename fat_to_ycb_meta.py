@@ -3,10 +3,9 @@ import numpy as np
 import json
 import os
 from collections import defaultdict
-from bounding_box import get_failed_files
+from common_funcs import get_failed_files, get_directories, ROOT_PATH
 
-ROOT_PATH = '/media/external/diss/fat_dataset/fat'
-FAILED_FILES = []
+FAILED_FILES = get_failed_files()
 
 object_ids = defaultdict(lambda: None)
 conversion_ids = defaultdict(list)
@@ -215,43 +214,8 @@ def process_scenes(path: str, start_index: int, output_dir: str = 'output') -> i
   
   return index
 
-def get_directories(root: str = '') -> list:
-  '''
-  Retrives relative paths to the FAT files.
-
-    Parameters:
-      root (str): The root directory of the FAT dataset
-
-    Returns:
-      dir_list (list): List of relative paths
-  '''
-
-  # Get names of directories at root
-  dir_list_mixed = [
-    'mixed/' + item for item in os.listdir(ROOT_PATH + '/mixed') if os.path.isdir(os.path.join(ROOT_PATH, 'mixed', item))]
-  # Sorted to ensure processed data is always in same order
-  dir_list_mixed.sort()
-
-  dir_list_single_objs = [
-    'single/' + item for item in os.listdir(ROOT_PATH + '/single') if os.path.isdir(os.path.join(ROOT_PATH, 'single', item))]
-
-  dir_list_single = []
-  for directory in dir_list_single_objs:
-    dir_list_single.extend(
-      [directory + '/' + item for item in os.listdir(ROOT_PATH + '/' + directory) if os.path.isdir(os.path.join(ROOT_PATH, directory, item))]
-    )
-
-  dir_list_single.sort()
-
-  dir_list = []
-  dir_list.extend(dir_list_mixed)
-  dir_list.extend(dir_list_single)
-
-  return dir_list
-
 if __name__ == '__main__':
   print('Creating .mat files...')
-  get_failed_files()
 
   dir_list = get_directories(ROOT_PATH + '/')
 

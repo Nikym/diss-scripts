@@ -1,8 +1,6 @@
 import cv2
 import os
-from fat_to_ycb_meta import get_directories
-
-ROOT_PATH = '/media/external/diss/fat_dataset/fat'
+from common_funcs import get_directories, ROOT_PATH
 
 def crop_image(img):
   cropped = img[30:30+480, 160:160+640]
