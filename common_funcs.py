@@ -10,7 +10,7 @@ def get_failed_files() -> list:
       failed_files (list): String list of corrupted files
   '''
   failed_files = []
-  with open(ROOT_PATH + 'output/img_processing_err.txt', 'r') as err_file:
+  with open(ROOT_PATH + '/output/img_processing_err.txt', 'r') as err_file:
     while True:
       f = err_file.readline()
       if not f:

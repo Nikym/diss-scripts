@@ -22,7 +22,7 @@ def process_scenes(path: str, start_index: int, output_dir: str = 'output') -> i
   # Each scene has 2 angles with 4 data files each, plus 2 camera / obj files not related
   num_of_files = int((len(os.listdir(path)) - 2) / 8)
 
-  err_file = open(ROOT_PATH + 'output/img_processing_err.txt', 'a')
+  err_file = open(ROOT_PATH + '/output/img_processing_err.txt', 'a')
 
   index = 0
   for x in range(0, num_of_files):
@@ -68,7 +68,7 @@ if __name__ == '__main__':
 
   dir_list = get_directories(ROOT_PATH + '/')
 
-  log_file = open(ROOT_PATH + 'output/img_processing_log.txt', 'w')
+  log_file = open(ROOT_PATH + '/output/img_processing_log.txt', 'w')
 
   total_files = 0
   total_dir = len(dir_list)

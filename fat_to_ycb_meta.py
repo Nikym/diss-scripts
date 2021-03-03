@@ -219,7 +219,7 @@ if __name__ == '__main__':
 
   dir_list = get_directories(ROOT_PATH + '/')
 
-  log_file = open(ROOT_PATH + 'output/meta_processing_log.txt', 'w+')
+  log_file = open(ROOT_PATH + '/output/meta_processing_log.txt', 'w+')
 
   total_files = 0
   total_dir = len(dir_list)
@@ -240,10 +240,10 @@ if __name__ == '__main__':
   
   log_file.close()
 
-  with open(ROOT_PATH + 'output/object_ids.json', 'w+') as f:
+  with open(ROOT_PATH + '/output/object_ids.json', 'w+') as f:
     f.write(json.dumps(object_ids, indent=2))
 
-  with open(ROOT_PATH + 'output/conversion_ids.json', 'w+') as f:
+  with open(ROOT_PATH + '/output/conversion_ids.json', 'w+') as f:
     f.write(json.dumps(conversion_ids, indent=2))
 
   print('Complete')

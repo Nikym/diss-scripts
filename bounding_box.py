@@ -84,7 +84,7 @@ if __name__ == '__main__':
 
   dir_list = get_directories(ROOT_PATH + '/')
 
-  log_file = open(ROOT_PATH + 'output/box_processing_log.txt', 'w')
+  log_file = open(ROOT_PATH + '/output/box_processing_log.txt', 'w')
 
   total_files = 0
   total_dir = len(dir_list)
