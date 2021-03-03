@@ -9,7 +9,7 @@ def get_failed_files():
   '''
   Reads list of corrupted files and loads them into a list.
   '''
-  with open(ROOT_PATH + '/img_processing_err.txt', 'r') as err_file:
+  with open(ROOT_PATH + 'output/img_processing_err.txt', 'r') as err_file:
     while True:
       f = err_file.readline()
       if not f:
@@ -98,7 +98,7 @@ if __name__ == '__main__':
 
   dir_list = get_directories(ROOT_PATH + '/')
 
-  log_file = open(ROOT_PATH + '/box_processing_log.txt', 'w')
+  log_file = open(ROOT_PATH + 'output/box_processing_log.txt', 'w')
 
   total_files = 0
   total_dir = len(dir_list)
@@ -114,7 +114,7 @@ if __name__ == '__main__':
     total_files += process_scenes(
       path,
       total_files,
-      ROOT_PATH + '/output_box'
+      ROOT_PATH + '/output/box'
     )
 
   log_file.close()

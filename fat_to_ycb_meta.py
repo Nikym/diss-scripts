@@ -72,8 +72,6 @@ def get_intrinsic_matrix(camera_data: dict) -> np.ndarray:
   i_matrix[1][1] = i_data['fy']
   i_matrix[2][2] = 1
   i_matrix[0][1] = i_data['s']
-  # i_matrix[0][2] = i_data['cx']
-  # i_matrix[1][2] = i_data['cy']
   i_matrix[0][2] = 320
   i_matrix[1][2] = 240
 
@@ -257,7 +255,7 @@ if __name__ == '__main__':
 
   dir_list = get_directories(ROOT_PATH + '/')
 
-  log_file = open(ROOT_PATH + '/meta_processing_log.txt', 'w+')
+  log_file = open(ROOT_PATH + 'output/meta_processing_log.txt', 'w+')
 
   total_files = 0
   total_dir = len(dir_list)
@@ -273,15 +271,15 @@ if __name__ == '__main__':
     total_files += process_scenes(
       path,
       total_files,
-      ROOT_PATH + '/output'
+      ROOT_PATH + '/output/mat'
     )
   
   log_file.close()
 
-  with open(ROOT_PATH + '/object_ids.json', 'w+') as f:
+  with open(ROOT_PATH + 'output/object_ids.json', 'w+') as f:
     f.write(json.dumps(object_ids, indent=2))
 
-  with open(ROOT_PATH + '/conversion_ids.json', 'w+') as f:
+  with open(ROOT_PATH + 'output/conversion_ids.json', 'w+') as f:
     f.write(json.dumps(conversion_ids, indent=2))
 
   print('Complete')
