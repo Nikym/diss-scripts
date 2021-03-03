@@ -10,6 +10,50 @@ FAILED_FILES = get_failed_files()
 object_ids = defaultdict(lambda: None)
 conversion_ids = defaultdict(list)
 
+def get_objects_in_scene(box_path: str) -> list:
+  '''
+  Retrives list of objects present in a given box annotation file.
+
+    Parameters:
+      box_path (str): Path to the relevant box annotation file
+
+    Returns:
+      obj_list (list): List of objects present in the box annotation file
+  '''
+  obj_list = []
+  with open(box_path, 'r') as f:
+    while True:
+      line = f.readline()
+
+      if line is None:
+        break
+
+      line_list = line.split(' ')
+      obj_list.append(line_list[0])
+
+  return obj_list
+
+def pre_process_data(data: dict, path: str) -> dict:
+  '''
+  Removes objects from dataset that are no longer required.
+
+    Parameters:
+      data (dict): JSON representation of the FAT meta file
+      path (str): Path to file
+    
+    Returns:
+      data (dict): FAT meta data with missing objects removed
+  '''
+  obj_list = get_objects_in_scene(path)
+
+  new_obj = []
+  for obj in data['objects']:
+    if obj['class'][:-4] in obj_list:
+      new_obj.append(obj)
+
+  data['objects'] = new_obj
+  return data
+
 def generate_label_ids(data: dict):
   '''
   Generates the segmentation / label IDs for each object and stores the
@@ -188,6 +232,13 @@ def process_scenes(path: str, start_index: int, output_dir: str = 'output') -> i
       with open(os.path.join(path, file_name)) as f:
         data = json.load(f)
 
+      out_file_id = str(index + start_index).zfill(6)
+
+      data = pre_process_data(
+        data,
+        os.path.join(ROOT_PATH, 'output', 'box', out_file_id + '-box.txt')
+      )
+
       centers = get_centers(data)
       factor_depth = get_factor_depth()
       intrinsic_matrix = get_intrinsic_matrix(camera_data)
@@ -195,7 +246,7 @@ def process_scenes(path: str, start_index: int, output_dir: str = 'output') -> i
       cls_indexes = get_cls_indexes(data)
 
       try:
-        sio.savemat(output_dir + '/' + str(index + start_index).zfill(6) + '-meta.mat', {
+        sio.savemat(output_dir + '/' + out_file_id + '-meta.mat', {
           'center': centers,
           'factor_depth': factor_depth,
           'intrinsic_matrix': intrinsic_matrix,
