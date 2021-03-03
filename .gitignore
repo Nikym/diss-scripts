@@ -2,3 +2,4 @@
 output
 *.txt
 *.json
+*.dev.py
