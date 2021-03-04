@@ -16,7 +16,7 @@ def get_failed_files() -> list:
       if not f:
         break
 
-      failed_files.append(f)
+      failed_files.append(f[:-1])
 
   return failed_files
 
