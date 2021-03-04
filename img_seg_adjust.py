@@ -27,7 +27,7 @@ if __name__ == '__main__':
   print('Adjusting segmentation IDs in label images...')
   ids = get_conversion_list()
 
-  for root, dirs, files in os.walk(ROOT_PATH + '/output/box'):
+  for root, dirs, files in os.walk(ROOT_PATH + '/output/box', topdown=False):
     for name in files:
       if is_single_object(os.path.join(root, name)):
         img_id = name[:-7] + 'label.png'
