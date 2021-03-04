@@ -25,7 +25,7 @@ def get_objects_in_scene(box_path: str) -> list:
     while True:
       line = f.readline()
 
-      if line is None:
+      if not line:
         break
 
       line_list = line.split(' ')
