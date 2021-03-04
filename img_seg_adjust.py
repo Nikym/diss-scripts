@@ -20,14 +20,15 @@ def is_single_object(path: str):
   return False
 
 def get_conversion_list() -> dict:
-  with open(ROOT_PATH + '/output/object_ids..json', 'r') as f:
+  with open(ROOT_PATH + '/output/object_ids.json', 'r') as f:
     return json.load(f)
 
 if __name__ == '__main__':
   print('Adjusting segmentation IDs in label images...')
   ids = get_conversion_list()
 
-  for path in os.walk(ROOT_PATH + '/output/box'):
-    if is_single_object(path):
-      img_id = path[-14:-7] + 'label.png'
-      print(img_id)
+  for root, dirs, files in os.walk(ROOT_PATH + '/output/box'):
+    for name in files:
+      if is_single_object(os.path.join(root, name)):
+        img_id = name[:-7] + 'label.png'
+        print(img_id)
