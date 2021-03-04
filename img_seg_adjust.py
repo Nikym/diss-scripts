@@ -45,13 +45,13 @@ if __name__ == '__main__':
     full_id = str(scene_id).zfill(6)
     box_path = ROOT_PATH + '/output/box/' + full_id + '-box.txt'
 
-    print(box_path)
-    # if is_single_object(box_path):
-    #   change_pixel_value(
-    #     OUTPUT_PATH + '/' + full_id + '-label.png',
-    #     frm=255,
-    #     to=ids[get_object_names(box_path)]
-    #   )
+    if is_single_object(box_path):
+      print(ids[get_object_names(box_path)])
+      # change_pixel_value(
+      #   OUTPUT_PATH + '/' + full_id + '-label.png',
+      #   frm=255,
+      #   to=ids[get_object_names(box_path)]
+      # )
 
     # for name in files:
     #   if is_single_object(os.path.join(root, name)):
