@@ -44,10 +44,10 @@ def process_scenes(path: str, start_index: int, output_dir: str = 'output') -> i
         cropped_img = crop_image(cv2.imread(file_name))
 
         depth_file_name = file_path + '.depth.png'
-        cropped_depth = crop_image(cv2.imread(depth_file_name))
+        cropped_depth = crop_image(cv2.imread(depth_file_name, -1))
 
         seg_file_name = file_path + '.seg.png'
-        cropped_seg = crop_image(cv2.imread(seg_file_name))
+        cropped_seg = crop_image(cv2.imread(seg_file_name, cv2.IMREAD_GRAYSCALE))
 
         new_file_id = output_dir + '/' + str(index + start_index).zfill(6)
 
