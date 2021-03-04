@@ -46,7 +46,7 @@ if __name__ == '__main__':
     box_path = ROOT_PATH + '/output/box/' + full_id + '-box.txt'
 
     if is_single_object(box_path):
-      print(ids[get_object_names(box_path)])
+      print(ids[get_object_names(box_path)[0]])
       # change_pixel_value(
       #   OUTPUT_PATH + '/' + full_id + '-label.png',
       #   frm=255,
