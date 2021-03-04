@@ -46,14 +46,8 @@ if __name__ == '__main__':
     box_path = ROOT_PATH + '/output/box/' + full_id + '-box.txt'
 
     if is_single_object(box_path):
-      print(ids[get_object_names(box_path)[0]])
-      # change_pixel_value(
-      #   OUTPUT_PATH + '/' + full_id + '-label.png',
-      #   frm=255,
-      #   to=ids[get_object_names(box_path)]
-      # )
-
-    # for name in files:
-    #   if is_single_object(os.path.join(root, name)):
-    #     img_id = name[:-7] + 'label.png'
-    #     print(img_id)
+      change_pixel_value(
+        OUTPUT_PATH + '/' + full_id + '-label.png',
+        frm=255,
+        to=ids[get_object_names(box_path)[0]]
+      )
