@@ -12,6 +12,18 @@ def change_pixel_value(path: str, frm: int, to: int):
   
   cv2.imwrite(path, img)
 
+def get_object_names(path: str):
+  names = []
+  with open(path) as f:
+    while True:
+      line = f.readline()
+      if not line:
+        break
+        
+      names.append(line.split(' ')[0])
+  
+  return names
+
 def is_single_object(path: str):
   with open(path) as f:
     count = sum(1 for _ in f)
@@ -27,8 +39,21 @@ if __name__ == '__main__':
   print('Adjusting segmentation IDs in label images...')
   ids = get_conversion_list()
 
-  for root, dirs, files in os.walk(ROOT_PATH + '/output/box', topdown=False):
-    for name in files:
-      if is_single_object(os.path.join(root, name)):
-        img_id = name[:-7] + 'label.png'
-        print(img_id)
+  count = len([1 for x in list(os.scandir(ROOT_PATH + "/output/box")) if x.is_file()])
+
+  for scene_id in range(count):
+    full_id = str(scene_id).zfill(6)
+    box_path = ROOT_PATH + '/output/box/' + full_id + '-box.txt'
+
+    print(box_path)
+    # if is_single_object(box_path):
+    #   change_pixel_value(
+    #     OUTPUT_PATH + '/' + full_id + '-label.png',
+    #     frm=255,
+    #     to=ids[get_object_names(box_path)]
+    #   )
+
+    # for name in files:
+    #   if is_single_object(os.path.join(root, name)):
+    #     img_id = name[:-7] + 'label.png'
+    #     print(img_id)
