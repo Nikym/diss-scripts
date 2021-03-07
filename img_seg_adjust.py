@@ -49,9 +49,9 @@ if __name__ == '__main__':
 
     if is_single_object(box_path):
       log_file.write(
-        full_id + '-label.png: 255 ->' + ids[get_object_names(box_path)[0]] + '\n'
+        full_id + '-label.png: 255 ->' + str(ids[get_object_names(box_path)[0]]) + '\n'
       )
-      print(full_id + '-label.png: 255 ->' + ids[get_object_names(box_path)[0]] + '\n')
+      print(full_id + '-label.png: 255 ->' + str(ids[get_object_names(box_path)[0]]) + '\n')
       change_pixel_value(
         OUTPUT_PATH + '/' + full_id + '-label.png',
         frm=255,
