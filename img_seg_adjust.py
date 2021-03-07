@@ -41,7 +41,7 @@ if __name__ == '__main__':
 
   count = len([1 for x in list(os.scandir(ROOT_PATH + "/output/box")) if x.is_file()])
 
-  log_file = open('/output/img_seg_adjust_log.txt', 'w')
+  log_file = open(ROOT_PATH + '/output/img_seg_adjust_log.txt', 'w')
 
   for scene_id in range(count):
     full_id = str(scene_id).zfill(6)
