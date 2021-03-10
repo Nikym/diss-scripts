@@ -7,12 +7,29 @@ from common_funcs import ROOT_PATH
 OUTPUT_PATH = ROOT_PATH + '/output/img'
 
 def change_pixel_value(path: str, frm: int, to: int):
+  '''
+  Adjusts specified pixel value to new value.
+
+    Parameters:
+      path (str) - Path to img
+      from (int) - Pixel value (0-255)
+      to (int) - Pixel value (0-255)
+  '''
   img = cv2.imread(path, cv2.IMREAD_GRAYSCALE)
   img[np.where(img == [frm])] = [to]
   
   cv2.imwrite(path, img)
 
 def get_object_names(path: str) -> list:
+  '''
+  Retrives names of objects present in file.
+
+    Parameters:
+      path (str) - Path to img
+    
+    Returns:
+      names (list) - List of object names
+  '''
   names = []
   with open(path) as f:
     while True:
@@ -25,6 +42,15 @@ def get_object_names(path: str) -> list:
   return names
 
 def is_single_object(path: str) -> bool:
+  '''
+  Checks if specified file contains only one object.
+
+    Parameters:
+      path (str) - Path to box file
+
+    Returns:
+      is_single (bool) - Boolean true or false
+  '''
   with open(path) as f:
     count = sum(1 for _ in f)
     if count is 1:
@@ -32,6 +58,12 @@ def is_single_object(path: str) -> bool:
   return False
 
 def get_conversion_list() -> dict:
+  '''
+  Get hash table of object segmentation IDs.
+
+    Returns:
+      object_ids (dict) - Hash table of object-id pairs
+  '''
   with open(ROOT_PATH + '/output/object_ids.json', 'r') as f:
     return json.load(f)
 
