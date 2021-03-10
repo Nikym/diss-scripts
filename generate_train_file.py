@@ -1,7 +1,7 @@
 import os
 from collections import defaultdict
 
-ROOT_PATH = '/media/external/diss/fat_dataset/far/output/combined'
+ROOT_PATH = '/media/external/diss/fat_dataset/fat/output/combined'
 POSECNN_PATH = '~/diss/PoseCNN/data/LOV'
 
 # Retrieve the number of files in each folder
