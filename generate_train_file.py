@@ -6,9 +6,13 @@ POSECNN_PATH = '/home/nikita/diss/PoseCNN/data/LOV'
 
 # Retrieve the number of files in each folder
 file_count = defaultdict(int)
-dirs = [d for d in os.listdir(ROOT_PATH) if os.path.isdir(d)]
+dirs = [
+  d for d in os.listdir(ROOT_PATH) if os.path.isdir(os.path.join(ROOT_PATH, d))
+]
 for directory in dirs:
-  file_count[directory] = len([f for f in os.listdir(ROOT_PATH + '/' + directory) if os.path.isfile(f)])
+  file_count[directory] = len([
+    f for f in os.listdir(ROOT_PATH + '/' + directory) if os.path.isfile(os.path.join(ROOT_PATH, directory, f))
+  ])
 
 # Create new train file with the relative paths of data
 with open(POSECNN_PATH + '/train_new.txt', 'w') as train_file:
