@@ -6,9 +6,9 @@ POSECNN_PATH = '~/diss/PoseCNN/data/LOV'
 
 # Retrieve the number of files in each folder
 file_count = defaultdict(int)
-dirs = next(os.walk(ROOT_PATH))[1]
+dirs = os.walk(ROOT_PATH)[1]
 for directory in dirs:
-  file_count[directory] = len(next(os.walk(ROOT_PATH + '/' + directory))[2])
+  file_count[directory] = len(os.walk(ROOT_PATH + '/' + directory)[2])
 
 # Create new train file with the relative paths of data
 with open(POSECNN_PATH + '/train_new.txt', 'w') as train_file:
