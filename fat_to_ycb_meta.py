@@ -190,11 +190,11 @@ def get_cls_indexes(data: dict) -> np.ndarray:
   if n is 0:
     return np.array([], dtype=np.float32)
 
-  cls_indexes = np.zeros(n, dtype=np.float32)
+  cls_indexes = np.zeros((n,1), dtype=np.float32)
 
   for i, obj in enumerate(data['objects']):
     obj_name = obj['class'][:-4]
-    cls_indexes[i] = object_ids[obj_name]
+    cls_indexes[i][0] = object_ids[obj_name]
 
   return cls_indexes
 
