@@ -21,12 +21,14 @@ NUM_TEST_DIRS = len(dirs) // 10
 
 # Create new train file with the relative paths of data
 with open(POSECNN_PATH + '/train_new.txt', 'w') as train_file:
-  for n in range(len(dirs) - NUM_TEST_DIRS):
-    for scene_id in range(file_count[str(n).zfill(3)]):
+  for n in range(0, len(dirs) - NUM_TEST_DIRS):
+    directory = str(n).zfill(3)
+    for scene_id in range(file_count[directory]):
       train_file.write(directory + '/' + str(scene_id + n*2000).zfill(6) + '\n')
 
 # Create new test file with relative paths of data
-with open(POSECNN_PATH + '/test_new.txt', 'w') as test_file:
+with open(POSECNN_PATH + '/val_new.txt', 'w') as test_file:
   for n in range(len(dirs) - NUM_TEST_DIRS, len(dirs)):
-    for scene_id in range(file_count[str(n).zfill(3)]):
+    directory = str(n).zfill(3)
+    for scene_id in range(file_count[directory]):
       test_file.write(directory + '/' + str(scene_id + n*2000).zfill(6) + '\n')
