@@ -57,6 +57,25 @@ def is_single_object(path: str) -> bool:
       return True
   return False
 
+def create_new_ids_dict(object_ids: dict) -> dict:
+  '''
+  Creates new updates IDs for objects.
+
+    Parameters:
+      object_ids (dict) - Dictionary of object : ID pairs
+    
+    Returns:
+      new_object_ids (dict) - Dictionary of new n object IDs ranging from 0 to n
+  '''
+  new_object_ids = {}
+  
+  objects = sorted(object_ids.keys)
+  
+  for i, obj in enumerate(objects):
+    new_object_ids[obj] = i+1
+
+  return new_object_ids
+
 def get_conversion_list() -> dict:
   '''
   Get hash table of object segmentation IDs.
@@ -67,9 +86,20 @@ def get_conversion_list() -> dict:
   with open(ROOT_PATH + '/output/object_ids.json', 'r') as f:
     return json.load(f)
 
+def convert_to_new_ids(path: str, obj_names: list, old_ids: dict, new_ids: dict):
+  '''
+  Converts old IDs to new IDs.
+  '''
+  for obj_name in obj_names:
+    old_id = old_ids[obj_name]
+    new_id = new_ids[obj_name]
+
+    change_pixel_value(path, old_id, new_id)
+
 if __name__ == '__main__':
   print('Adjusting segmentation IDs in label images...')
   ids = get_conversion_list()
+  new_ids = create_new_ids_dict(ids)
 
   count = len([1 for x in list(os.scandir(ROOT_PATH + "/output/box")) if x.is_file()])
 
@@ -79,16 +109,27 @@ if __name__ == '__main__':
     full_id = str(scene_id).zfill(6)
     box_path = ROOT_PATH + '/output/box/' + full_id + '-box.txt'
 
+    objs = get_object_names(box_path)
     if is_single_object(box_path):
       log_file.write(
-        full_id + '-label.png: 255 ->' + str(ids[get_object_names(box_path)[0]]) + '\n'
+        full_id + '-label.png: 255 ->' + str(ids[objs[0]]) + '\n'
       )
-      print(full_id + '-label.png: 255 ->' + str(ids[get_object_names(box_path)[0]]) + '\n')
+      print(full_id + '-label.png: 255 ->' + str(ids[objs[0]]) + '\n')
       change_pixel_value(
         OUTPUT_PATH + '/' + full_id + '-label.png',
         frm=255,
-        to=ids[get_object_names(box_path)[0]]
+        to=ids[objs[0]]
       )
+    
+    convert_to_new_ids(
+      OUTPUT_PATH + '/' + full_id + '-label.png',
+      objs,
+      ids,
+      new_ids
+    )
+  
+  with open(ROOT_PATH + '/output/new_object_ids.json', 'w+') as f:
+    f.write(json.dumps(new_ids, indent=2))
   
   log_file.close()
   print('Complete')
