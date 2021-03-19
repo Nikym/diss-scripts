@@ -19,6 +19,9 @@ for x in range(count):
   scene_id = str(x).zfill(6)
   mat_path = MAT_ROOT + '/' + scene_id + '-meta.mat'
 
+  if x % 2000 == 0:
+    print('At ' + scene_id + ' ...')
+
   data = sio.loadmat(mat_path)
   
   for i in range(len(data['cls_indexes'])):
