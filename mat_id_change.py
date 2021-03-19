@@ -24,7 +24,7 @@ for x in range(count):
   print(data['cls_indexes'], end='')
   print(' -> ', end='')
   
-  for i in len(data['cls_indexes']):
+  for i in range(len(data['cls_indexes'])):
     old_id = data['cls_indexes'][i][0]
     new_id = new_ids[old_ids[old_id]]
 
