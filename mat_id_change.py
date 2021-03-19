@@ -8,7 +8,7 @@ MAT_ROOT = ROOT_PATH + '/output/mat'
 with open(ROOT_PATH + '/output/object_ids.json') as f:
   old_ids = json.loads(f)
 
-old_ids = {value: key for key, value in old_ids.}
+old_ids = {value: key for key, value in old_ids.keys()}
 
 print(old_ids)
 
