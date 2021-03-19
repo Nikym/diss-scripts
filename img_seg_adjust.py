@@ -1,4 +1,15 @@
+import sys
+
+ros_path = '/opt/ros/kinetic/lib/python2.7/dist-packages'
+
+if ros_path in sys.path:
+
+    sys.path.remove(ros_path)
+
 import cv2
+
+sys.path.append('/opt/ros/kinetic/lib/python2.7/dist-packages')
+
 import json
 import os
 import numpy as np
@@ -69,7 +80,7 @@ def create_new_ids_dict(object_ids: dict) -> dict:
   '''
   new_object_ids = {}
   
-  objects = sorted(object_ids.keys)
+  objects = sorted(object_ids.keys())
   
   for i, obj in enumerate(objects):
     new_object_ids[obj] = i+1
