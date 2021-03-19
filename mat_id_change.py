@@ -20,9 +20,6 @@ for x in range(count):
   mat_path = MAT_ROOT + '/' + scene_id + '-meta.mat'
 
   data = sio.loadmat(mat_path)
-
-  print(data['cls_indexes'], end='')
-  print(' -> ', end='')
   
   for i in range(len(data['cls_indexes'])):
     old_id = data['cls_indexes'][i][0]
@@ -30,7 +27,7 @@ for x in range(count):
 
     data['cls_indexes'][i][0] = new_id
 
-  print(data['cls_indexes'])
+  sio.savemat(mat_path, data)
 
 print('Complete!')
     
