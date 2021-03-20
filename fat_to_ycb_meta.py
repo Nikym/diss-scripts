@@ -85,6 +85,8 @@ def get_centers(data: dict) -> np.ndarray:
 
   for i, obj in enumerate(data['objects']):
     centers[i] = obj['projected_cuboid_centroid']
+    centers[i][0] -= 160
+    centers[i][1] -= 30
 
   return centers
 
