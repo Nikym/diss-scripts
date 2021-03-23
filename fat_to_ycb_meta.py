@@ -85,6 +85,7 @@ def get_centers(data: dict) -> np.ndarray:
 
   for i, obj in enumerate(data['objects']):
     centers[i] = obj['projected_cuboid_centroid']
+    # Adjusting for the cropped images
     centers[i][0] -= 160
     centers[i][1] -= 30
 
@@ -139,6 +140,8 @@ def _get_transpose_permutation(matrix: list) -> np.ndarray:
 
   t_vector = rt_matrix[3][0:3]
   t_vector = t_vector.reshape(-1, 1)
+  # The translations are done in cm in the FAT dataset
+  t_vector = t_vector / 100
 
   p = np.zeros((3, 3))
   p[1][0] = 1
