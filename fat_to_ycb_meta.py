@@ -144,9 +144,9 @@ def _get_transpose_permutation(matrix: list) -> np.ndarray:
   t_vector = t_vector / 100
 
   p = np.zeros((3, 3))
+  p[0][2] = 1
   p[1][0] = 1
   p[2][1] = -1
-  p[0][2] = 1
 
   r_matrix = np.matmul(r_matrix.T, p)
   rt_matrix = np.append(r_matrix, t_vector, axis=1)
