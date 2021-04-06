@@ -5,3 +5,4 @@ output
 *.dev.py
 venv
 __pycache__
+outputs/*
