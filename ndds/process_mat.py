@@ -145,6 +145,21 @@ def _get_transpose_permutation(matrix: list) -> np.ndarray:
     p[2][1] = -1
 
     r_matrix = np.matmul(r_matrix.T, p)
+
+    # Perform rotations to align ground truths with image
+    p = np.zeros((3, 3))
+    p[0][0] = -1
+    p[1][1] = -1
+    p[2][2] = 1
+
+    r_matrix = np.matmul(r_matrix, p)
+
+    p = np.zeros((3, 3))
+    p[0][2] = -1
+    p[1][1] = 1
+    p[2][0] = 1
+
+    r_matrix = np.matmul(r_matrix, p)
     rt_matrix = np.append(r_matrix, t_vector, axis=1)
 
     return np.float32(rt_matrix)
@@ -258,8 +273,8 @@ def main():
     except Exception:
         print('(Directory "processed" already created, skipping creation...)')
     
-    # id_track = process_mixed(process_scene)
-    process_single(58000, process_scene)
+    id_track = process_mixed(process_scene)
+    process_single(id_track, process_scene)
 
     print('*** COMPLETE ***')
 
