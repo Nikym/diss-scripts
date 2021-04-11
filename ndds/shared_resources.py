@@ -1,8 +1,8 @@
 import os
 import json
 
-ROOT_DIR = '/home/nikita/diss/generated_data/'
-OUT_DIR = '/home/nikita/diss/generated_data/processed/'
+ROOT_DIR = '/media/nikita/Samsung_T5/diss/generated_data/100k_noisy_extra/'
+OUT_DIR = '/media/nikita/Samsung_T5/diss/generated_data/processed/'
 NUM_SETS = 29
 
 def process_mixed(func) -> int:
@@ -15,8 +15,10 @@ def process_mixed(func) -> int:
 
     id_track = 0
     for _dir in range(0, NUM_SETS):
-        id_track = _dir * 2000
-        padded_dir = str(_dir).zfill(2)
+        id_track = _dir * 2000 + 102000
+        # id_track = _dir * 2000
+        padded_dir = str(_dir + 51).zfill(2)
+        ac_dir = str(_dir).zfill(2)
         print('    - Looking at set ' + padded_dir + ' ')
         try:
             os.mkdir(OUT_DIR + padded_dir)
@@ -26,7 +28,7 @@ def process_mixed(func) -> int:
         for _set in range(0, 10):
             print('        -> ' + str(_set).zfill(2))
             scene_dir = template.format(
-                root=MIXED_DIR, dir1=padded_dir, dir2=_set
+                root=MIXED_DIR, dir1=ac_dir, dir2=_set
             )
             for _id in range(0, 200):
                 scene_id = str(_id).zfill(6)

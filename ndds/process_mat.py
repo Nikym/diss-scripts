@@ -274,7 +274,7 @@ def main():
         print('(Directory "processed" already created, skipping creation...)')
     
     id_track = process_mixed(process_scene)
-    process_single(id_track, process_scene)
+    # process_single(id_track, process_scene)
 
     print('*** COMPLETE ***')
 
