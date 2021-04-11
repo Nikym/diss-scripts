@@ -13,30 +13,26 @@ def parse_args():
     args = parser.parse_args()
     return args
 
-def get_start(lines):
-    for i, line in enumerate(lines):
-        if line[:4] == 'iter':
-            return i
-    return None
+def get_points(line) -> tuple:
+    line_arr = line.split(',')
 
-def get_points(lines, index: int) -> list:
+    loss = float(line_arr[1][7:])
+    loss_cls = float(line_arr[2][11:])
+    loss_vertex = float(line_arr[3][14:])
+    loss_pose = float(line_arr[4][12:])
+
+    return (loss, loss_cls, loss_vertex, loss_pose)
+
+def get_point_list(f) -> list:
     points = []
-    for i, line in enumerate(lines):
-        if i < index:
-            continue
+    while True:
+        line = f.readline()
 
-        line_arr = line.split(',')
-
-        if line_arr[0][:4] != 'iter':
+        if not line:
             break
 
-        loss = float(line_arr[1][7:])
-        loss_cls = float(line_arr[2][11:])
-        loss_vertex = float(line_arr[3][14:])
-        loss_pose = float(line_arr[4][12:])
-
-        points.append((loss, loss_cls, loss_vertex, loss_pose))
-
+        if line[:4] == 'iter':
+            points.append(get_points(line))
     return points
 
 def create_csv(points: list):
@@ -52,11 +48,7 @@ def main():
 
     with open(args.log_file) as f:
         lines = f.readlines()
-        index = get_start(lines)
-        if index == None:
-            raise Exception('File is not valid log file (does not contain iteration info)')
-        
-        points = get_points(lines, index)
+        points = get_point_list(lines)
         create_csv(points)
 
 if __name__ == '__main__':
