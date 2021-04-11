@@ -13,15 +13,15 @@ def parse_args():
     args = parser.parse_args()
     return args
 
-def get_start(f):
-    for i, line in enumerate(f.readlines()):
+def get_start(lines):
+    for i, line in enumerate(lines):
         if line[:4] == 'iter':
             return i
     return None
 
-def get_points(f, index: int) -> list:
+def get_points(lines, index: int) -> list:
     points = []
-    for i, line in enumerate(f.readlines()):
+    for i, line in enumerate(lines):
         if i < index:
             continue
 
@@ -51,11 +51,12 @@ def main():
     print('[FILE: {}]'.format(args.log_file))
 
     with open(args.log_file) as f:
-        index = get_start(f)
+        lines = f.readlines()
+        index = get_start(lines)
         if index == None:
             raise Exception('File is not valid log file (does not contain iteration info)')
         
-        points = get_points(f, index)
+        points = get_points(lines, index)
         create_csv(points)
 
 if __name__ == '__main__':
