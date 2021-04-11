@@ -47,8 +47,7 @@ def main():
     print('[FILE: {}]'.format(args.log_file))
 
     with open(args.log_file) as f:
-        lines = f.readlines()
-        points = get_point_list(lines)
+        points = get_point_list(f)
         create_csv(points)
 
 if __name__ == '__main__':
