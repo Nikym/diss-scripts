@@ -24,7 +24,7 @@ def get_points(f, index: int) -> list:
     for line in f.readlines()[index:]:
         line_arr = line.split(',')
 
-        if len(line_arr) != 7:
+        if line_arr[0][:4] != 'iter':
             break
 
         loss = float(line_arr[1][7:])
