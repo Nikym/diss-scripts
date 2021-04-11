@@ -21,7 +21,10 @@ def get_start(f):
 
 def get_points(f, index: int) -> list:
     points = []
-    for line in f.readlines()[index:]:
+    for i, line in enumerate(f.readlines()):
+        if i < index:
+            continue
+
         line_arr = line.split(',')
 
         if line_arr[0][:4] != 'iter':
