@@ -20,6 +20,15 @@ def parse_args():
   args = parser.parse_args()
   return args
 
+def normalise(arr: np.array) -> np.array:
+  norm_array = []
+  diff_arr = max(arr) - min(arr)
+  for i in arr:
+    temp = (((i - min(arr))*1)/diff_arr)
+    norm_array.append(temp)
+
+  return np.array(norm_array)
+
 def main():
   args = parse_args()
   _, axis = plt.subplots(2,2)
@@ -42,18 +51,22 @@ def main():
         y3[(i-1) // args.step_size] = row[2]
         y4[(i-1) // args.step_size] = row[3]
 
+  y1 = normalise(y1)
   axis[0,0].plot(x, y1)
   axis[0,0].plot(x, np.poly1d(np.polyfit(x, y1, 1))(x))
   axis[0,0].set_title('loss')
 
+  y2 = normalise(y2)
   axis[0,1].plot(x, y2)
   axis[0,1].plot(x, np.poly1d(np.polyfit(x, y2, 1))(x))
   axis[0,1].set_title('loss_cls')
 
+  y3 = normalise(y3)
   axis[1,0].plot(x, y3)
   axis[1,0].plot(x, np.poly1d(np.polyfit(x, y3, 1))(x))
   axis[1,0].set_title('loss_vertex')
 
+  y4 = normalise(y4)
   axis[1,1].plot(x, y4)
   axis[1,1].plot(x, np.poly1d(np.polyfit(x, y4, 1))(x))
   axis[1,1].set_title('loss_pose')
