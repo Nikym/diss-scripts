@@ -5,6 +5,7 @@ def parse_args():
     parser = argparse.ArgumentParser(description='Extract error graphs from log files')
   
     parser.add_argument('--log', dest='log_file', help='Path to log file', default=None, type=str)
+    parser.add_argument('--out', dest='out_file', help='Path to out file', default='./outputs/log_points.csv', type=str)
 
     if len(sys.argv) == 1:
         parser.print_help()
@@ -35,8 +36,8 @@ def get_point_list(f) -> list:
             points.append(get_points(line))
     return points
 
-def create_csv(points: list):
-    with open('/home/nikita/diss/scripts/outputs/log_points.csv', 'w') as f:
+def create_csv(points: list, out_file: str):
+    with open(out_file, 'w') as f:
         f.write('loss,loss_cls,loss_vertex,loss_pose\n')
         for point in points:
             f.write('{},{},{},{}\n'.format(point[0], point[1], point[2], point[3]))
@@ -48,7 +49,7 @@ def main():
 
     with open(args.log_file) as f:
         points = get_point_list(f)
-        create_csv(points)
+        create_csv(points, args.out_file)
 
 if __name__ == '__main__':
     main()
