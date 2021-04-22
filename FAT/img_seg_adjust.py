@@ -118,6 +118,9 @@ if __name__ == '__main__':
 
   for scene_id in range(count):
     full_id = str(scene_id).zfill(6)
+    if scene_id % 200 == 0:
+      print('@ scene {}'.format(full_id))
+
     box_path = ROOT_PATH + '/output/box/' + full_id + '-box.txt'
 
     objs = get_object_names(box_path)
@@ -125,7 +128,6 @@ if __name__ == '__main__':
       log_file.write(
         full_id + '-label.png: 255 ->' + str(ids[objs[0]]) + '\n'
       )
-      print(full_id + '-label.png: 255 ->' + str(ids[objs[0]]) + '\n')
       change_pixel_value(
         OUTPUT_PATH + '/' + full_id + '-label.png',
         frm=255,
