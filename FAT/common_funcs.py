@@ -1,6 +1,6 @@
 import os
 
-ROOT_PATH = '/media/external/diss/fat_dataset/fat'
+ROOT_PATH = '/media/nikita/Samsung_T5/diss/fat'
 
 def get_failed_files() -> list:
   '''
