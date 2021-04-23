@@ -16,7 +16,7 @@ def convert_images(scene_path: str, scene_id: str, out_path: str, new_id: str):
     color_img = cv2.imread(scene_path + scene_id + '.png')
     cv2.imwrite(out_path + new_id + '-color.png', color_img)
 
-    depth_img = cv2.imread(scene_path + scene_id + '.depth.16.png', -1)
+    depth_img = cv2.imread(scene_path + scene_id + '.depth.png', -1)
     cv2.imwrite(out_path + new_id + '-depth.png', depth_img)
 
     seg_img = cv2.imread(scene_path + scene_id + '.cs.png', cv2.IMREAD_GRAYSCALE)
