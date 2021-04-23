@@ -61,7 +61,7 @@ def main():
         print('(Directory "processed" already created, skipping creation...)')
     
     id_track = process_mixed(create_bounding_box)
-    # process_single(id_track, create_bounding_box)
+    process_single(id_track, create_bounding_box)
 
     print('*** COMPLETE ***')
 

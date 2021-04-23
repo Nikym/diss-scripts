@@ -1,7 +1,7 @@
 import os
 import json
 
-ROOT_DIR = '/media/nikita/Samsung_T5/diss/generated_data/100k_noisy_extra/'
+ROOT_DIR = '/media/nikita/Samsung_T5/diss/generated_data/100k/'
 OUT_DIR = '/media/nikita/Samsung_T5/diss/generated_data/processed/'
 NUM_SETS = 29
 
@@ -15,9 +15,9 @@ def process_mixed(func) -> int:
 
     id_track = 0
     for _dir in range(0, NUM_SETS):
-        id_track = _dir * 2000 + 102000
-        # id_track = _dir * 2000
-        padded_dir = str(_dir + 51).zfill(2)
+        # id_track = _dir * 2000 + 102000
+        id_track = _dir * 2000
+        padded_dir = str(_dir).zfill(2)
         ac_dir = str(_dir).zfill(2)
         print('    - Looking at set ' + padded_dir + ' ')
         try:

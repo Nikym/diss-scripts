@@ -30,7 +30,7 @@ def main():
         print('(Directory "processed" already created, skipping creation...)')
     
     id_track = process_mixed(convert_images)
-    # process_single(id_track, convert_images)
+    process_single(id_track, convert_images)
 
     print('*** COMPLETE ***')
 
