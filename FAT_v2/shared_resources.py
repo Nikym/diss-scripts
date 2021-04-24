@@ -22,7 +22,7 @@ def process_mixed(func) -> int:
 
     id_track = 0
     for i, _dir in enumerate(DIRS):
-        id_track = i * 2000
+        id_track = i * 4000
         padded_dir = str(i).zfill(2)
         ac_dir = _dir
         print('    - Looking at set ' + ac_dir + ' ')
@@ -47,7 +47,6 @@ def process_mixed(func) -> int:
             new_id = str(_id + id_track).zfill(6)
 
             func(scene_dir, scene_id, OUT_DIR + padded_dir + '/', new_id)
-        id_track += 4000
         print('        -> done!')
 
     return id_track
