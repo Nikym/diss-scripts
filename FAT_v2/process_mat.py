@@ -9,7 +9,7 @@ from shared_resources import ROOT_DIR, OUT_DIR, NUM_SETS, process_mixed, process
 with open('/home/nikita/diss/scripts/objectIds.json') as f:
     OBJECT_SEG_IDS = json.load(f)
 
-with open(ROOT_DIR + 'mixed/00/0/_camera_settings.json') as f:
+with open(ROOT_DIR + 'mixed/kitchen_0/_camera_settings.json') as f:
     camera_data = json.load(f)
 
 def get_label_ids(data: dict) -> dict:
@@ -86,6 +86,9 @@ def get_centers(data: dict) -> np.ndarray:
 
     for i, obj in enumerate(data['objects']):
         centers[i] = obj['projected_cuboid_centroid']
+        # Adjusting for the cropped images
+        centers[i][0] -= 160
+        centers[i][1] -= 30
 
     return centers
 
@@ -115,8 +118,8 @@ def get_intrinsic_matrix(camera_data: dict) -> np.ndarray:
     i_matrix[1][1] = i_data['fy']
     i_matrix[2][2] = 1
     i_matrix[0][1] = i_data['s']
-    i_matrix[0][2] = i_data['cx']
-    i_matrix[1][2] = i_data['cy']
+    i_matrix[0][2] = 320
+    i_matrix[1][2] = 240
 
     return i_matrix
 
@@ -145,21 +148,6 @@ def _get_transpose_permutation(matrix: list) -> np.ndarray:
     p[2][1] = -1
 
     r_matrix = np.matmul(r_matrix.T, p)
-
-    # Perform rotations to align ground truths with image
-    p = np.zeros((3, 3))
-    p[0][0] = -1
-    p[1][1] = -1
-    p[2][2] = 1
-
-    r_matrix = np.matmul(r_matrix, p)
-
-    p = np.zeros((3, 3))
-    p[0][2] = -1
-    p[1][1] = 1
-    p[2][0] = 1
-
-    r_matrix = np.matmul(r_matrix, p)
     rt_matrix = np.append(r_matrix, t_vector, axis=1)
 
     return np.float32(rt_matrix)
@@ -274,7 +262,7 @@ def main():
         print('(Directory "processed" already created, skipping creation...)')
     
     id_track = process_mixed(process_scene)
-    # process_single(id_track, process_scene)
+    process_single(id_track, process_scene)
 
     print('*** COMPLETE ***')
 

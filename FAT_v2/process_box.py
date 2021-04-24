@@ -21,13 +21,13 @@ def create_bounding_box(scene_path: str, scene_id: str, out_path: str, new_id: s
         name = obj['class']
         box = obj['bounding_box']
 
-        tl_x_coord = round(box['top_left'][1], 2)
+        tl_x_coord = round(box['top_left'][1], 2) - 160
         if tl_x_coord > 640:
             continue # Out of frame
         elif tl_x_coord < 0:
             tl_x_coord = 0.0
 
-        tl_y_coord = round(box['top_left'][0], 2)
+        tl_y_coord = round(box['top_left'][0], 2) - 30
         if tl_y_coord > 480:
             continue
         elif tl_y_coord < 0:
@@ -35,13 +35,13 @@ def create_bounding_box(scene_path: str, scene_id: str, out_path: str, new_id: s
 
         tl_coords = str(tl_x_coord) + ' ' + str(tl_y_coord)
 
-        br_x_coord = round(box['bottom_right'][1], 2)
+        br_x_coord = round(box['bottom_right'][1], 2) - 160
         if br_x_coord < 0:
             continue # If end is before boundary then item is not in frame
         elif br_x_coord > 640:
             br_x_coord = 640.0
 
-        br_y_coord = round(box['bottom_right'][0], 2)
+        br_y_coord = round(box['bottom_right'][0], 2) - 30
         if br_y_coord < 0:
             continue
         elif br_y_coord > 480:
@@ -61,7 +61,7 @@ def main():
         print('(Directory "processed" already created, skipping creation...)')
     
     id_track = process_mixed(create_bounding_box)
-    # process_single(id_track, create_bounding_box)
+    process_single(id_track, create_bounding_box)
 
     print('*** COMPLETE ***')
 

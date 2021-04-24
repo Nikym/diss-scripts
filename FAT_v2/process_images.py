@@ -19,13 +19,13 @@ def convert_images(scene_path: str, scene_id: str, out_path: str, new_id: str):
             new_id (str): New synchronised ID of scene
     '''
     color_img = cv2.imread(scene_path + scene_id + '.jpg')
-    cv2.imwrite(out_path + new_id + '-color.png', color_img)
+    cv2.imwrite(out_path + new_id + '-color.png', crop_image(color_img))
 
     depth_img = cv2.imread(scene_path + scene_id + '.depth.png', -1)
-    cv2.imwrite(out_path + new_id + '-depth.png', depth_img)
+    cv2.imwrite(out_path + new_id + '-depth.png', crop_image(depth_img))
 
     seg_img = cv2.imread(scene_path + scene_id + '.seg.png', cv2.IMREAD_GRAYSCALE)
-    cv2.imwrite(out_path + new_id + '-label.png', seg_img)
+    cv2.imwrite(out_path + new_id + '-label.png', crop_image(seg_img))
 
 def main():
     print('*** BEGINNING PROCESSING OF IMAGES ***')
