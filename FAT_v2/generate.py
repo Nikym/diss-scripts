@@ -1,7 +1,7 @@
 ROOT_PATH = '/media/nikita/Samsung_T5/diss/fat/output/'
 OUT_PATH = '/home/nikita/diss/scripts/outputs'
 
-NUM_DIRS = 35
+NUM_DIRS = 36
 TEST_PERCENTAGE = 20
 
 # NUM_VAL_DIRS = int((NUM_DIRS / 100) * TEST_PERCENTAGE)
