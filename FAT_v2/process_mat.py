@@ -25,7 +25,7 @@ def get_label_ids(data: dict) -> dict:
     object_ids = {}
 
     for obj in data['exported_objects']:
-        obj_name = obj['class']
+        obj_name = obj['class'][:-4]
 
         object_ids[obj_name] = obj['segmentation_class_id']
     
@@ -65,7 +65,7 @@ def remove_hidden(data: dict, box_path: str) -> dict:
 
     new_objs = []
     for obj in data['objects']:
-        if obj['class'] in obj_list:
+        if obj['class'][:-4] in obj_list:
             new_objs.append(obj)
     
     data['objects'] = new_objs
@@ -197,8 +197,8 @@ def get_cls_indexes(data: dict) -> np.ndarray:
     cls_indexes = np.zeros((n,1), dtype=np.float32)
 
     for i, obj in enumerate(data['objects']):
-        obj_name = obj['class']
-        cls_indexes[i][0] = OBJECT_SEG_IDS[obj_name[:-4]]
+        obj_name = obj['class'][:-4]
+        cls_indexes[i][0] = OBJECT_SEG_IDS[obj_name]
 
     return cls_indexes
 
