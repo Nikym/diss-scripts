@@ -166,7 +166,7 @@ def get_rt_matrices(data: dict) -> np.ndarray:
 
     for obj in data['objects']:
         rt_matrix = _get_transpose_permutation(
-            obj['pose_transform']
+            obj['pose_transform_permuted']
         )
 
         if rt_matrices is None:
