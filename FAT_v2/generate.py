@@ -29,8 +29,8 @@ print('Creating val.txt ...')
 with open(OUT_PATH + '/val.txt', 'w') as val_file:
 	for n in VALIDATE_DIRS:
 		padded_dir = str(n).zfill(2)
-		for i in range(0, 2000):
-			scene_id = str(i + n*2000).zfill(6)
+		for i in range(0, 4000):
+			scene_id = str(i + n*4000).zfill(6)
 			val_file.write(padded_dir + '/' + scene_id + '\n')
 
 print('Done')
