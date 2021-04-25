@@ -61,7 +61,7 @@ print('Creating train.txt and val.txt ...')
 with open(OUT_PATH + '/list.txt', 'w') as train_file:
 	with open(OUT_PATH + '/val.txt', 'w') as val_file:
 		with open(OUT_PATH + '/list.txt', 'r') as list_file:
-			for i, scene in enumerate(f.readlines()):
+			for i, scene in enumerate(list_file.readlines()):
 				if i % 10 == 0 or i % 10 == 1:
 					val_file.write(scene)
 				else:
