@@ -1,3 +1,5 @@
+from filter_multiple import filter_file
+
 ROOT_PATH = '/media/nikita/Samsung_T5/diss/fat/output/'
 OUT_PATH = '/home/nikita/diss/scripts/outputs'
 
@@ -9,11 +11,11 @@ TEST_PERCENTAGE = 20
 
 VALIDATE_DIRS = [0,1,5,6,10,11]
 
-print('Creating train.txt ...')
-with open(OUT_PATH + '/train.txt', 'w') as train_file:
+print('Creating list.txt ...')
+with open(OUT_PATH + '/list.txt', 'w') as train_file:
 	for n in range(0, NUM_DIRS):
-		if n in VALIDATE_DIRS:
-			continue
+		# if n in VALIDATE_DIRS:
+		# 	continue
 
 		padded_dir = str(n).zfill(2)
 		if n < 15:
@@ -25,12 +27,24 @@ with open(OUT_PATH + '/train.txt', 'w') as train_file:
 				scene_id = str(i + 14*4000 + (n-15)*3000).zfill(6)
 				train_file.write(padded_dir + '/' + scene_id + '\n')
 
-print('Creating val.txt ...')
-with open(OUT_PATH + '/val.txt', 'w') as val_file:
-	for n in VALIDATE_DIRS:
-		padded_dir = str(n).zfill(2)
-		for i in range(0, 4000):
-			scene_id = str(i + n*4000).zfill(6)
-			val_file.write(padded_dir + '/' + scene_id + '\n')
+# print('Creating val.txt ...')
+# with open(OUT_PATH + '/val.txt', 'w') as val_file:
+# 	for n in VALIDATE_DIRS:
+# 		padded_dir = str(n).zfill(2)
+# 		for i in range(0, 4000):
+# 			scene_id = str(i + n*4000).zfill(6)
+# 			val_file.write(padded_dir + '/' + scene_id + '\n')
+
+filter_file('list')
+
+print('Creating train.txt and val.txt ...')
+with open(OUT_PATH + '/list.txt', 'w') as train_file:
+	with open(OUT_PATH + '/val.txt', 'w') as val_file:
+		with open(OUT_PATH + '/list.txt', 'r') as list_file:
+			for i, scene in enumerate(f.readlines()):
+				if i % 10 == 0 or i % 10 == 1:
+					val_file.write(scene)
+				else:
+					train_file.write(scene)
 
 print('Done')
