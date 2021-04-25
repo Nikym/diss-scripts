@@ -16,7 +16,7 @@ with open(OUT_PATH + '/train.txt', 'w') as train_file:
 			continue
 
 		padded_dir = str(n).zfill(2)
-		if n > 14:
+		if n < 15:
 			for i in range(0, 4000):
 				scene_id = str(i + n*4000).zfill(6)
 				train_file.write(padded_dir + '/' + scene_id + '\n')
