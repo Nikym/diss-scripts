@@ -58,7 +58,7 @@ with open(OUT_PATH + '/list.txt', 'w') as train_file:
 filter_file('list')
 
 print('Creating train.txt and val.txt ...')
-with open(OUT_PATH + '/list.txt', 'w') as train_file:
+with open(OUT_PATH + '/train.txt', 'w') as train_file:
 	with open(OUT_PATH + '/val.txt', 'w') as val_file:
 		with open(OUT_PATH + '/list_formatted.txt', 'r') as list_file:
 			for i, scene in enumerate(list_file.readlines()):
