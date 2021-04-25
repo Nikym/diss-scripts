@@ -18,7 +18,7 @@ def create_bounding_box(scene_path: str, scene_id: str, out_path: str, new_id: s
     box_file = open(out_path + new_id + '-box.txt', 'w')
     
     for obj in scene_data['objects']:
-        name = obj['class']
+        name = obj['class'][:-4]
         box = obj['bounding_box']
 
         tl_x_coord = round(box['top_left'][1], 2) - 160

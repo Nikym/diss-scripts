@@ -198,7 +198,7 @@ def get_cls_indexes(data: dict) -> np.ndarray:
 
     for i, obj in enumerate(data['objects']):
         obj_name = obj['class']
-        cls_indexes[i][0] = OBJECT_SEG_IDS[obj_name]
+        cls_indexes[i][0] = OBJECT_SEG_IDS[obj_name[:-4]]
 
     return cls_indexes
 
