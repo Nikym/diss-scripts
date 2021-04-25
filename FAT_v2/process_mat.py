@@ -222,7 +222,7 @@ def update_label_image(path: str, old_ids: dict):
     '''
     for obj_name in old_ids.keys():
         old_id = old_ids[obj_name]
-        new_id = OBJECT_SEG_IDS[obj_name]
+        new_id = OBJECT_SEG_IDS[obj_name[:-4]]
 
         change_pixel_value(path, old_id, new_id)
 
