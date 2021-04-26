@@ -30,7 +30,7 @@ with open(OUT_PATH + '/list.txt', 'w') as train_file:
 	for n in range(0, NUM_DIRS):
 		padded_dir = str(n).zfill(2)
 		# Uncomment if statement below for no-kitedemo
-		if n > 4 or n < 10:
+		if n > 4 and n < 10:
 			continue
 		if n < 15:
 			for i in range(0, 4000):
@@ -39,7 +39,7 @@ with open(OUT_PATH + '/list.txt', 'w') as train_file:
 		else:
 			for i in range(0, 3000):
 				# Uncomment if statement below for no-kitedemo
-				if i > 999 or i < 2000:
+				if i > 999 and i < 2000:
 					continue
 				scene_id = str(i + 14*4000 + (n-15)*3000).zfill(6)
 				train_file.write(padded_dir + '/' + scene_id + '\n')
