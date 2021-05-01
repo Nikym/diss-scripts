@@ -2,6 +2,7 @@
 echo "Running FAT 0.0008 tests"
 rm /home/nikita/diss/PoseCNN/data/LOV/data
 ln -s /media/nikita/Samsung_T5/diss/fat/output /home/nikita/diss/PoseCNN/data/LOV/data
+cd /home/nikita/diss/PoseCNN/data/LOV
 rm /home/nikita/diss/PoseCNN/data/LOV/keyframe.txt
 cp /home/nikita/diss/PoseCNN/output/fat/lov_train/fat_0008\(13\)/val.txt /home/nikita/diss/PoseCNN/data/LOV/keyframe.txt
 split -l 4000 /home/nikita/diss/PoseCNN/data/LOV/keyframe.txt
@@ -31,6 +32,7 @@ sleep 10s
 echo "Running FAT w/o kitedemo 0.0008 tests"
 rm /home/nikita/diss/PoseCNN/data/LOV/data
 ln -s /media/nikita/Samsung_T5/diss/fat/output /home/nikita/diss/PoseCNN/data/LOV/data
+cd /home/nikita/diss/PoseCNN/data/LOV
 rm /home/nikita/diss/PoseCNN/data/LOV/keyframe.txt
 cp /home/nikita/diss/PoseCNN/output/fat/lov_train/fat_nok_0008\(16\)/val.txt /home/nikita/diss/PoseCNN/data/LOV/keyframe.txt
 split -l 4000 /home/nikita/diss/PoseCNN/data/LOV/keyframe.txt
@@ -57,6 +59,7 @@ echo "Running Mixed 0.0008 tests"
 rm /home/nikita/diss/PoseCNN/data/LOV/data
 ln -s /media/nikita/Samsung_T5/diss/fat/output /home/nikita/diss/PoseCNN/data/LOV/data
 cp /home/nikita/diss/PoseCNN/output/fat/lov_train/mixed_0008\(19\)/val.txt /home/nikita/diss/PoseCNN/data/LOV/keyframe.txt
+cd /home/nikita/diss/PoseCNN/data/LOV
 split -l 4000 /home/nikita/diss/PoseCNN/data/LOV/keyframe.txt
 rm /home/nikita/diss/PoseCNN/data/LOV/keyframe.txt
 mv /home/nikita/diss/PoseCNN/data/LOV/xaa /home/nikita/diss/PoseCNN/data/LOV/keyframe.txt
@@ -89,6 +92,7 @@ sleep 10s
 echo "Running Custom Noisy 0.0008 tests"
 rm /home/nikita/diss/PoseCNN/data/LOV/data
 ln -s /media/nikita/Samsung_T5/diss/generated_data/processed2 /home/nikita/diss/PoseCNN/data/LOV/data
+cd /home/nikita/diss/PoseCNN/data/LOV
 cp /home/nikita/diss/PoseCNN/output/fat/lov_train/noisy_0008\(10\)/val.txt /home/nikita/diss/PoseCNN/data/LOV/keyframe.txt
 split -l 4000 /home/nikita/diss/PoseCNN/data/LOV/keyframe.txt
 rm /home/nikita/diss/PoseCNN/data/LOV/keyframe.txt
