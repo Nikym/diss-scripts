@@ -1,4 +1,4 @@
-# FAT to YCB Data Processing Scripts
+# FAT to YCB Data Processing Scripts -- WIP, Awaiting Cleanup
 
 The following set of scripts allow for easy conversion from the Falling Things dataset file / image structure to that of the YCB dataset. Similarly, this also works for the outputs of the NDDS plugin for UE4.
 
